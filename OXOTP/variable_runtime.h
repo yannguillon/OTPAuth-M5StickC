@@ -1,10 +1,10 @@
 
 // Run-Time Variables //
-
 StaticJsonDocument<2000> jsondata;
 
-RTC_TimeTypeDef TimeStruct;
-RTC_DateTypeDef DateStruct;
+m5::rtc_time_t TimeStruct;
+m5::rtc_date_t DateStruct;
+
 
 unsigned long previousMillis = 0;
 

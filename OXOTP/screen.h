@@ -105,10 +105,10 @@ bool switchscreen() {
 
   unsigned long currentMillis = millis();
   if (currentMillis - previousMillis >= timeout_ScreenOn) {
-    M5.Axp.PowerOff();
+    M5.Power.powerOff();
   }
   M5.update();
-  if (M5.Axp.GetBtnPress()) {
+  if (M5.BtnB.wasPressed()) {
     previousMillis = currentMillis;
     if (menu_index == (N_screen - 1)) {
       menu_index = 0;

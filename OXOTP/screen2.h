@@ -19,17 +19,18 @@ void  Time_screen() {
 
     if (sec != second() | firstloadScreen) {
       firstloadScreen = false;
-      M5.Lcd.fillRect(0, 17, 160, 63, BLACK);
+      //M5.Lcd.fillRect(0, 17, 160, 63, BLACK);
+      M5.Lcd.fillScreen(TFT_BLACK);
       sec = second();
 
       String timedatenow = getString_2digit(hour()) + ":" + getString_2digit(minute()) + ":" + getString_2digit(second());
-      M5.Lcd.setCursor(1, 49);
+      M5.Lcd.setCursor(4, 39);
       M5.Lcd.setTextColor(WHITE, BLACK);
       M5.Lcd.setFreeFont(&beta15pt7b);
       M5.Lcd.print(timedatenow);
 
       timedatenow = getString_2digit(day()) + "/" + getString_2digit(month()) + "/" + String(year());
-      M5.Lcd.setCursor(1, 64);
+      M5.Lcd.setCursor(4, 90);
       M5.Lcd.setFreeFont(&beta10pt7b);
       M5.Lcd.print(timedatenow);
     }

@@ -22,7 +22,8 @@ void OTP_screen() {
     if (how_many_otp_registred == 0) {
       if (firstloadScreen) {
 
-        M5.Lcd.fillRect(0, 17, 160, 60, BLACK);
+        //M5.Lcd.fillRect(0, 17, 160, 60, BLACK);
+        M5.Lcd.fillScreen(TFT_BLACK);
 
         M5.Lcd.setCursor(10, 32);
         M5.Lcd.setFreeFont(&beta5pt7b);
@@ -74,11 +75,11 @@ void OTP_screen() {
         String otpLabel = "L" + String(pointer);
         M5.Lcd.print(String(pointer) + ":" + NVS.getString(otpLabel).substring(0, 10));
 
-        M5.Lcd.setCursor(10, 42);
+        M5.Lcd.setCursor(10, 52);
         String otpUser = "U" + String(pointer);
         M5.Lcd.print(NVS.getString(otpUser).substring(0, 10));
 
-        M5.Lcd.setCursor(10, 64);
+        M5.Lcd.setCursor(10, 74);
         M5.Lcd.setFreeFont(&beta15pt7b);
         M5.Lcd.print(newCode);
       }
@@ -90,8 +91,8 @@ void OTP_screen() {
         float OTP_bar_per_160 = OTP_bar;
         OTP_bar_per_160 = (OTP_bar_per_160 / 30) * 160;
         OTP_bar = OTP_bar_per_160;
-        M5.Lcd.fillRect(0, 77, OTP_bar, 3, (OTP_bar < 130) ? WHITE : RED);
-        M5.Lcd.fillRect(OTP_bar, 77, 160 - OTP_bar, 3, BLACK);
+        M5.Lcd.fillRect(0, 120, OTP_bar, 3, (OTP_bar < 130) ? WHITE : RED);
+        M5.Lcd.fillRect(OTP_bar, 120, 160 - OTP_bar, 3, BLACK);
       }
     } //-----------------------------------timebar----------------------------------------//
   }

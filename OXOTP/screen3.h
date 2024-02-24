@@ -1,8 +1,13 @@
+  void handleRoot() {
+  server.send(200, "text/html", webpage);
+}
+
 void Wifi_screen() {
 
   WiFi.mode(WIFI_AP);
 
-  M5.Lcd.fillRect(0, 17, 160, 63, BLACK);
+  //M5.Lcd.fillRect(0, 17, 160, 63, BLACK);
+  M5.Lcd.fillScreen(TFT_BLACK);
   M5.Lcd.drawXBitmap(60, 22, wait_icon, wait_icon_width, wait_icon_height, TFT_WHITE, TFT_BLACK);      // wait icon
 
 
@@ -11,10 +16,12 @@ void Wifi_screen() {
   char ssid[13];
 
 
-  //----- generate password for wifi
-  for (int i = 0; i < 8; i++) {
-    pass_gen += rondom_letters[random(0, rondom_letters.length() - 1)];
-  }
+  // //----- generate password for wifi
+  // for (int i = 0; i < 8; i++) {
+  //   pass_gen += rondom_letters[random(0, rondom_letters.length() - 1)];
+  // }
+  pass_gen = "1A2B3C4D"; // static
+  
   pass_gen.toCharArray(password, 9);
 
 
@@ -27,22 +34,37 @@ void Wifi_screen() {
 
 
   //----- set SSID and PASSWORD
+
   WiFi.softAP(ssid, password);
 
+  Serial.println("AP started, password: " + pass_gen);
+
   M5.Lcd.fillRect(60, 22, wait_icon_width, wait_icon_height, BLACK);
-  M5.Lcd.setFreeFont(&beta8pt7b);
+  M5.Lcd.setFreeFont(&beta10pt7b);
   M5.Lcd.setCursor(10, 36);
   M5.Lcd.print ("CONNECT TO:");
-  M5.Lcd.setFreeFont(&beta5pt7b);
-  M5.Lcd.setCursor(10, 48);
+  M5.Lcd.setFreeFont(&beta8pt7b);
+  M5.Lcd.setCursor(10, 64);
   M5.Lcd.print (ssid_mac);
-  M5.Lcd.setCursor(10, 58);
+  M5.Lcd.setCursor(10, 90);
   M5.Lcd.print (pass_gen);
 
+
+  //----- start server
+
+  server.enableCORS();
+  server.enableCrossOrigin();
+  server.on("/", HTTP_GET, handleRoot);
+  server.handleClient();
 
 
 
   //----------------add-------------------
+
+  // preflicht OPTIONS request for the /add endpoint
+  server.on("/add", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
   server.on("/add", HTTP_POST, []() {
     jsondata.clear();
     previousMillis = millis();
@@ -55,6 +77,8 @@ void Wifi_screen() {
 
       for (int i = 0; i < hmac_length; i++) {
         hmacKey[i] = jsondata["data"][i];
+
+        Serial.println("key ' " + String(i) + "'" + hmacKey[i]);
       }
 
       int id = jsondata["id"];
@@ -76,6 +100,8 @@ void Wifi_screen() {
 
         NVS.setBlob(jsondata["id"], hmacKey, hmac_length);
 
+        // server.sendHeader("Access-Control-Allow-Origin", "*");
+        // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         server.send(200, " text/html", "OK");
 
       } else {
@@ -89,12 +115,21 @@ void Wifi_screen() {
 
 
   //----------------delete-------------------
+
+  // Handle preflight OPTIONS request for the /delete endpoint
+  server.on("/delete", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
+
   server.on("/delete", HTTP_POST, []() {
     previousMillis = millis();
     jsondata.clear();
 
     String pincode = NVS.getString ("pincode");
     if (pin_UNLOCK == pincode) {
+
+      // server.sendHeader("Access-Control-Allow-Origin", "*");
+      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "OK");
 
 
@@ -126,15 +161,22 @@ void Wifi_screen() {
 
 
   //----------------factoryReset--------------
+
+  // Handle preflight OPTIONS 
+  server.on("/factoryReset", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
+
   server.on("/factoryReset", HTTP_POST, []() {
     jsondata.clear();
     previousMillis = millis();
     String pincode = NVS.getString ("pincode");
     if (pin_UNLOCK == pincode) {
-
-
       deserializeJson(jsondata, server.arg(0));
       String  data1 = jsondata["data"];
+
+      // server.sendHeader("Access-Control-Allow-Origin", "*");
+      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
 
       server.send(200, " text/html", "OK");
       NVS.eraseAll();
@@ -147,6 +189,11 @@ void Wifi_screen() {
 
 
   //----------------check_pin_secure--------------       check if there is a pin in OXOTP
+  // handle preflight OPTIONS request
+  server.on("/check_pin_secure", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
+
   server.on("/check_pin_secure", HTTP_POST, []() {
     previousMillis = millis();
     jsondata.clear();
@@ -154,7 +201,9 @@ void Wifi_screen() {
 
     if (pincode == "") {
       server.send(200, " text/html", "NOT");
-    } else {
+    } else {      
+      // server.sendHeader("Access-Control-Allow-Origin", "*");
+      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "OK");
     }
   });
@@ -162,13 +211,18 @@ void Wifi_screen() {
 
 
   //----------------check_pin_LOCK--------------         check if OXOTP is LOCKED
+  // handle preflight OPTIONS request
+  server.on("/check_pin_LOCK", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
   server.on("/check_pin_LOCK", HTTP_POST, []() {
     previousMillis = millis();
     jsondata.clear();
     String  pincode = NVS.getString ("pincode");
 
     if (pin_UNLOCK == pincode) {
-
+      // server.sendHeader("Access-Control-Allow-Origin", "*");
+      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "UNLOCKED");
     } else {
       server.send(200, " text/html", "LOCKED");
@@ -178,6 +232,10 @@ void Wifi_screen() {
 
 
   //----------------set_pin--------------------           set pin to OXOTP
+  // handle preflight OPTIONS request
+  server.on("/set_pin", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
   server.on("/set_pin", HTTP_POST, []() {
     previousMillis = millis();
     jsondata.clear();
@@ -188,6 +246,8 @@ void Wifi_screen() {
     if (pin_UNLOCK == pincode) {
       pin_UNLOCK = pin;
       NVS.setString ("pincode", pin);
+      // server.sendHeader("Access-Control-Allow-Origin", "*");
+      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "OK");
     } else {
       server.send(200, " text/html", "LOCKED");
@@ -196,6 +256,10 @@ void Wifi_screen() {
 
   });
   //----------------UNLOCK--------------                UNLOCK the OXOTP
+  // handle preflight OPTIONS request
+  server.on("/UNLOCK", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
   server.on("/UNLOCK", HTTP_POST, []() {
     previousMillis = millis();
     jsondata.clear();
@@ -207,6 +271,8 @@ void Wifi_screen() {
     if (pin == pincode) {
 
       pin_UNLOCK = pin;
+      // server.sendHeader("Access-Control-Allow-Origin", "*");
+      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "OK");
     } else {
       server.send(200, " text/html", "LOCKED");
@@ -215,26 +281,28 @@ void Wifi_screen() {
 
 
   //----------------unix--------------                 set time with UNIX
+  // handle preflight OPTIONS request
+  server.on("/unix", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
   server.on("/unix", HTTP_POST, []() {
     previousMillis = millis();
     jsondata.clear();
     String pincode = NVS.getString ("pincode");
     if (pin_UNLOCK == pincode) {
 
-
-
       deserializeJson(jsondata, server.arg(0));
       time_t unix = jsondata["unix"];
       setTime(unix);
 
-      TimeStruct.Hours   = hour();
-      TimeStruct.Minutes = minute();
-      TimeStruct.Seconds = second();
-      DateStruct.Month = month();
-      DateStruct.Date = day();
-      DateStruct.Year = year();
-      M5.Rtc.SetData(&DateStruct);
-      M5.Rtc.SetTime(&TimeStruct);
+      TimeStruct.hours   = hour();
+      TimeStruct.minutes = minute();
+      TimeStruct.seconds = second();
+      DateStruct.month = month();
+      DateStruct.date = day();
+      DateStruct.year = year();
+      M5.Rtc.setDate(&DateStruct);
+      M5.Rtc.setTime(&TimeStruct);
 
       server.send(200, "text/html", "OK");
     } else {
@@ -269,6 +337,7 @@ void Wifi_screen() {
 
     String  dataout = "";
     serializeJson(jsondata, dataout);
+
     server.send(200, "text/html", dataout);
   });
 

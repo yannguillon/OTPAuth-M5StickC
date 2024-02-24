@@ -42,8 +42,8 @@ ommmmd/`             -ommmmm.    :hmmmmmy-    -ymmmmmy:
 
 
 #define maxOTPs 30                         // max OTP can hande OXOTP
-#define timeout_ScreenOn 180000            // The time at which the OXOTP shutdown after inactivity
-#define lcd_brightness 9                   // brightness of the LCD
+#define timeout_ScreenOn 180000 * 100            // The time at which the OXOTP shutdown after inactivity
+#define lcd_brightness 18                   // brightness of the LCD
 
 String rondom_letters = "AEF2345689";      // This string contains the characters used to generate the wifi password
 
@@ -53,7 +53,7 @@ String rondom_letters = "AEF2345689";      // This string contains the character
 #include<WiFiAP.h>
 #include <WiFi.h>
 #include<TOTP.h>
-#include<M5StickC.h>
+#include<M5StickCPlus2.h>
 #include<TimeLib.h>
 #include<ArduinoJson.h>
 #include"ArduinoNvs.h"
@@ -82,22 +82,24 @@ void setup() {
   Serial.begin(115200);
   while (!Serial);
 
-  M5.begin();
-  M5.Axp.ScreenBreath(lcd_brightness);
+  auto cfg = M5.config();
+  StickCP2.begin(cfg);
+  //M5.Axp.ScreenBreath(lcd_brightness);
+  M5.Display.setBrightness(lcd_brightness);
   NVS.begin();
 
   Serial.println("===============ESP32-OXOTP==============");
   Serial.println("================= V 1.0 ================");
   Serial.println("===============ESP32-OXOTP==============");
 
-  M5.Rtc.GetTime(&TimeStruct);
-  M5.Rtc.GetData(&DateStruct);
+  M5.Rtc.getTime(&TimeStruct);
+  M5.Rtc.getDate(&DateStruct);
 
   M5.Lcd.setRotation(3);
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setTextSize(1);
 
-  setTime(TimeStruct.Hours, TimeStruct.Minutes, TimeStruct.Seconds, DateStruct.Date, DateStruct.Month, DateStruct.Year);
+  setTime(TimeStruct.hours, TimeStruct.minutes, TimeStruct.seconds, DateStruct.date, DateStruct.month, DateStruct.year);
 
 }
 

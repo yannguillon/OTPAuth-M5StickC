@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+  <link rel="stylesheet" href="css/pico.violet.min.css" />
+  <style>
+    nav[aria-label=breadcrumb] ul {
+      width: 100%;
+    }
+    nav[aria-label=breadcrumb] ul li {
+      display:flex;justify-content: center;align-items: center;
+
+    }
+    nav[aria-label=breadcrumb] ul li:not(:last-child) ::after {
+      content: "";
+    }
+    [role=tab] {
+      border-bottom: 6px purple solid;
+      padding-block: 1.5rem;
+      margin: auto;
+      color: var(--secondary);
+      background: aliceblue;
+      transition: all .25s;
+      border-radius: 60px;
+      margin-top: 3px;
+      margin-bottom: 3px;
+
+    }
+    [role=tab][aria-current]{
+      color: var(--contrast)!important;
+      border-color: aquamarine  ;
+      background-color: cadetblue;
+      -webkit-text-fill-color: aliceblue;
+      
+      
+    }
+    section {
+      margin: calc(var(--block-spacing-vertical)*0.5) 0;
+    }
+    section [role=tabpanel] {
+      animation-duration: 0.3s;
+      animation-fill-mode: both;
+      animation-name: slideIn;
+    }
+    @keyframes slideIn {
+        0% {
+          transform: translateY(1rem);
+          opacity: 0;
+        }
+        100% {
+          transform:translateY(0rem);
+          opacity: 1;
+        }
+        0% {
+          transform: translateY(1rem);
+          opacity: 0;
+        }
+    }
+
+      /* OTP LIST styling */
+  #otpList {
+    padding: 0;
+  }
+  .otpItem {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 2px solid cadetblue;
+    box-shadow: 0 0 10px 0 cadetblue;
+    border-radius: 5px;
+  }
+
+  .deleteButton {
+    margin-top: -3px;
+    margin-right: -20px;
+    float: right;
+    background-color: #ff6666;
+    border: none;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 10px;
+    box-shadow: 0 0.6px 3px 0 blueviolet;
+    cursor: pointer;
+  }
+
+  .unixButton {
+    margin-top: 5px;
+    background-color: cadetblue;
+    border: none;
+    color: white;
+    padding: 10px 3rem;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+    </style>
+
+
+</head>
+
+<header class="container">
+
+  <nav aria-label="breadcrumb">
+    <h4 style="margin-right: 0.9rem; min-width: 9px;">OXOTP</h4>
+        <li><button role="tab">Overview</li>
+        <li><button role= "tab">Config</button>
+        <li><button role="tab">+</li>
+        <li><button role="tab">Info</li>
+  </nav>
+
+</header>
+
+<main class="container">
+  <section>
+    <div role="tabpanel">
+      <h3>OTP LIST</h3>
+      <ul id="otpList"></ul>
+    </div>
+    <div role="tabpanel" hidden>
+   
+      <h3>Configuration</h3>
+      <p> 
+        <button id="unixButton" class="unixButton">Sync Time</button>
+      </p>
+
+     
+    </div>
+    <div role="tabpanel" hidden>
+      <h3>Manual Add</h3>
+     
+<body main class="container" style="padding-left: 10%; padding-right: 10%;">
+  
+  
+  
+  <form id="addForm" action="/add" method="post">
+    <label for="id">ID:</label><br>
+    <input type="text" id="id" name="id"><br>
+    <label for="key">Key (Data):</label><br>
+    <input type="text" id="key" name="key"><br>
+    <label for="label">Label:</label><br>
+    <input type="text" id="label" name="label"><br>
+    <label for="user">User:</label><br>
+    <input type="text" id="user" name="user"><br>
+    <input type="submit" value="Send">
+  </form>
+  
+  
+
+   
+    </div> <!-- end of configuration panel -->
+    <div role="tabpanel" hidden>
+      <h4>OXOTP+</h4> 
+      <p>
+        Copyright (c) 2024 Alex Licata <b>@xick</b> <br>
+        Copyright (c) 2020 Imad Mezghache
+      </p>
+    </div> <!-- end of info panel -->
+  </section>
+</main>
+
+
+<script>
+
+  // Define the base endpoint address
+  const baseUrl = 'http://192.168.4.1';
+
+  // --- TAB SELECTION LOGIC ---
+  const _ = el => [...document.querySelectorAll(el)];
+  _('[role=tab]')[0].setAttribute('aria-current', true);
+  
+  _('[role=tab]').forEach(tab=> {
+    tab.addEventListener('click', (e) => {
+      
+          e.preventDefault();
+  
+          !e.target.hasAttribute('aria-current') ?
+          e.target.setAttribute('aria-current', true) :
+          null;
+          
+          _('[role=tab]').forEach(t=> {
+            t.hasAttribute('aria-current') && t != e.target ?
+            t.removeAttribute('aria-current') :
+            null;
+          });
+          
+          _('[role=tabpanel]').forEach(tp=> {
+            _('[role=tabpanel]').indexOf(tp) == _('[role=tab]').indexOf(e.target) ? 
+            tp.removeAttribute('hidden') : 
+            tp.setAttribute('hidden', true);
+          });
+          
+    });
+  });
+
+
+  // --- ADD OTP FORM SUBMISSION LOGIC ---
+
+  // Update the ID value in the delete form when submitting the add form
+  document.getElementById('addForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
+    var id = document.getElementById('id').value;
+    var keyString = document.getElementById('key').value;
+ // Decode Base32 key string
+    var keyArray = base32Decode(keyString);
+    var hmac_length = keyArray.length;
+
+    console.log(keyString.length + " keyString.length");
+    console.log(keyArray);
+    
+    var label = document.getElementById('label').value;
+    var user = document.getElementById('user').value;
+
+
+    // Create payload object
+    var payload = {
+      "id": id,
+      "data": keyArray,
+      "label": label,
+      "user": user,
+      "hmac_length": hmac_length
+    };
+
+    // Perform POST request
+    fetch(`${baseUrl}/add`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload)
+    })
+    .then(response => {
+      return response.text();
+    })
+    .then(message => {
+      alert(message); // Display server response
+    })
+    .then(data => {
+      console.log(data); // Log server response
+    })
+    .catch(error => {
+      console.error('There was a problem with the fetch operation:', error);
+    });
+  });
+
+  // --- UNIX SYNC TIME LOGIC ---
+
+  document.getElementById('unixButton').addEventListener('click', function() {
+  // Get current Unix timestamp
+  var unixTime = Math.floor(Date.now() / 1000);
+  var payload = {
+    "unix": unixTime
+  };
+
+  fetch(`${baseUrl}/unix`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => {
+    return response.text();
+  })
+  .then(message => {
+    alert(message); // Display server response
+  })
+  .then(data => {
+    console.log(data); // Log server response
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+});
+
+// --- end of unixButton logic ---
+
+// --- BASE32 DECODING LOGIC ---
+
+  function base32Decode(base32String) {
+    const base32Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+    let bits = '';
+    let bytes = [];
+
+    base32String = base32String.replace(/=/g, '');
+
+    for (let i = 0; i < base32String.length; i++) {
+        let value = base32Chars.indexOf(base32String[i].toUpperCase());
+        bits += value.toString(2).padStart(5, '0');
+    }
+
+    for (let i = 0; i+8 <= bits.length; i+=8) {
+        bytes.push(parseInt(bits.substring(i, i+8), 2));
+    }
+
+    return bytes;
+}
+  // --- end of base32Decode function ---
+
+ // --- GET OTP LIST LOGIC ---
+ fetch(`${baseUrl}/getOTPs`)
+    .then(response => response.json())
+    .then(data => {
+      // Process the received data and generate HTML
+      const otpList = document.getElementById('otpList');
+      data.OTPs.forEach(entry => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('otpItem');
+        listItem.innerHTML = `
+          <strong>ID: </strong>${entry.id}<br>
+          <strong>Label:</strong> ${entry.L}<br>
+          <strong>User:</strong> ${entry.U}
+          <button class="deleteButton" onclick="deleteOTP(${entry.id})">delete</button>
+        `;
+        otpList.appendChild(listItem);
+      });
+    })
+    .catch(error => console.error('Error fetching data:', error));
+
+    // Function to handle OTP deletion
+  function deleteOTP(id) {
+    fetch(`${baseUrl}/delete`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: id })
+    })
+    .then(response => {
+      if (response.ok) {
+        return 'removed';
+      } else {
+        throw new Error('Failed to delete');
+      }
+    })
+    .then(message => {
+      alert(message); // Display "removed" message
+    })
+    .catch(error => {
+      console.error('Error deleting OTP:', error);
+    });
+  }
+
+  // --- end of deleteOTP function ---
+    // --- end of getOTPs logic ---
+    
+  </script>
+
+</body>
+</html>
