@@ -1,7 +1,3 @@
-  void handleRoot() {
-  server.send(200, "text/html", webpage);
-}
-
 void Wifi_screen() {
 
   WiFi.mode(WIFI_AP);
@@ -51,11 +47,27 @@ void Wifi_screen() {
 
 
   //----- start server
-
   server.enableCORS();
   server.enableCrossOrigin();
-  server.on("/", HTTP_GET, handleRoot);
+
+    // Route for serving the zipped HTML page
+  server.on("/", HTTP_GET, []() {
+    // Send the zipped HTML page as a response
+    server.sendHeader("Content-Encoding", "gzip");
+    server.send_P(200, "text/html", index_html_gz, sizeof(index_html_gz));
+  });
+
+  // Route to load style.css file
+  server.on("/css/pico.violet.min.css", HTTP_GET, []() {
+    server.sendHeader("Content-Encoding", "gzip");
+    server.send_P(200, "text/css", css_gz, sizeof(css_gz));
+  });
+
+
+
   server.handleClient();
+
+
 
 
 

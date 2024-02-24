@@ -71,6 +71,8 @@ WebServer server(80);
 
 
 #include"variable_runtime.h"
+#include"index.h"
+#include"css.h"
 
 #include"screen.h"
 #include"screen1.h"
