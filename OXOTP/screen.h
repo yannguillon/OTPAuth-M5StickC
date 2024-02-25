@@ -1,7 +1,14 @@
 #define OTP_width 19
 #define OTP_height 16
-
 #define N_screen 3              //number of pages
+
+#define toolbar_height 20 // height of the toolbar area (battery, icons)
+
+#define battery_width 20
+#define battery_height 10
+#define batt_margin 2
+#define batt_border 2
+
 
 PROGMEM const unsigned char OTP_bits[4][48] = {{
     0x00, 0x00, 0xf8, 0xfe, 0xff, 0xfb, 0xfe, 0xff, 0xfb, 0x1e, 0xc0, 0xfb,     //OTP_ICON
@@ -93,13 +100,34 @@ static unsigned char logoapp_bits[] = {
   0xff, 0xff, 0xff, 0xff
 };
 
+void drawBattery() {
+  // draw battery, get battery level and draw a rectangle filled with the level
+
+  float batteryLevel = M5.Power.getBatteryLevel();
+
+  Serial.println(batteryLevel);
+
+  // draw the outer base rectangle with white color, the inner rectangle with black color,
+  // then fill the inner rectangle with greencolor with the battery level
+  int batteryLevelWidth = (int)(batteryLevel / 100.0 * (battery_width - batt_border * 2));
+
+  int batt_x = screen_x - battery_width - batt_margin;
+  int batt_y = batt_margin;
+
+  int batt_color = batteryLevel < 20 ? TFT_RED : TFT_GREEN;
+
+  M5.Lcd.drawRect(batt_x, batt_y, battery_width, battery_height, TFT_WHITE);
+  M5.Lcd.fillRect(batt_x + 1, batt_y + 1, battery_width - batt_border, battery_height - batt_border, TFT_BLACK);
+
+  M5.Lcd.fillRect(batt_x + 1, batt_y + 1, batteryLevelWidth, battery_height - batt_border, batt_color);
+
+}
 
 void showmenu() {
   for (int i = 0; i < N_screen; i++) {
     M5.Lcd.drawXBitmap(20 * i, 0, OTP_bits[i], OTP_width, OTP_height, menu_index == i ? TFT_WHITE : TFT_BLACK, menu_index == i ? TFT_BLACK : TFT_WHITE);
   }
 }
-
 
 bool switchscreen() {
 
@@ -116,7 +144,10 @@ bool switchscreen() {
       menu_index++;
     }
     showmenu();
+    drawBattery();
     return true;
   } showmenu();
   return false;
 }
+
+

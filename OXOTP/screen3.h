@@ -1,6 +1,5 @@
 void Wifi_screen() {
 
-
   //----- generate SSID for wifi AP
   char AP_ssid[13];
 
@@ -17,7 +16,6 @@ void Wifi_screen() {
     pass_gen += rondom_letters[random(0, rondom_letters.length() - 1)];
   }
   
-
   String pass_static = ""; // Default password
   pass_static = NVS.getString("wifi_password");
   if (pass_static == "") {
@@ -27,13 +25,11 @@ void Wifi_screen() {
   //0 : random password mode, 1 : static password mode
   passwordMode = NVS.getInt("passwordMode");
 
-
   Wifi_Mode = NVS.getString("wifiMode"); // Default mode
   // if the mode is not set, default to AP mode
   if (Wifi_Mode == "") {
     Wifi_Mode = "AP";
   }
-
 
   if (Wifi_Mode == "AP") {
     Wifi_SSID = ssid_mac;
@@ -41,7 +37,6 @@ void Wifi_screen() {
     Wifi_SSID = NVS.getString("wifi_ssid");
   }
   
-
 
   // Use the saved settings
   if (passwordMode == 0 && Wifi_Mode == "AP") {
@@ -55,7 +50,9 @@ void Wifi_screen() {
   char password[Wifi_PASSWORD.length() + 1];
   Wifi_PASSWORD.toCharArray(password, Wifi_PASSWORD.length() + 1);
 
-  M5.Lcd.fillScreen(TFT_BLACK);
+  // clear the screen, except the toolbar area
+  M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, TFT_BLACK);
+  
   M5.Lcd.drawXBitmap(60, 22, wait_icon, wait_icon_width, wait_icon_height, TFT_WHITE, TFT_BLACK);      // wait icon
 
   if (Wifi_Mode == "AP") {
@@ -153,6 +150,7 @@ void Wifi_screen() {
     // Route for serving the zipped HTML page
   server.on("/", HTTP_GET, []() {
     // Send the zipped HTML page as a response
+    previousMillis = millis();
     server.sendHeader("Content-Encoding", "gzip");
     server.send_P(200, "text/html", index_html_gz, sizeof(index_html_gz));
   });
@@ -163,13 +161,7 @@ void Wifi_screen() {
     server.send_P(200, "text/css", css_gz, sizeof(css_gz));
   });
 
-
-
   server.handleClient();
-
-
-
-
 
   //----------------add-------------------
 
@@ -212,8 +204,6 @@ void Wifi_screen() {
 
         NVS.setBlob(jsondata["id"], hmacKey, hmac_length);
 
-        // server.sendHeader("Access-Control-Allow-Origin", "*");
-        // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
         server.send(200, " text/html", "OK");
 
       } else {
@@ -225,10 +215,8 @@ void Wifi_screen() {
   });
 
 
-
   //----------------delete-------------------
 
-  // Handle preflight OPTIONS request for the /delete endpoint
   server.on("/delete", HTTP_OPTIONS, []() {
     server.send(200);
   });
@@ -239,19 +227,12 @@ void Wifi_screen() {
 
     String pincode = NVS.getString ("pincode");
     if (pin_UNLOCK == pincode) {
-
-      // server.sendHeader("Access-Control-Allow-Origin", "*");
-      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "OK");
-
-
       deserializeJson(jsondata, server.arg(0));
-
       int id = jsondata["id"];
 
       String  otpBool = jsondata["id"];
       otpBool = "B" + otpBool;
-
 
       String otpUser = jsondata["id"];
       otpUser = "U" + otpUser;
@@ -263,13 +244,10 @@ void Wifi_screen() {
       NVS.erase(otpLabel);
       NVS.erase(otpUser);
       NVS.erase(String(id));
-
-
     } else {
       server.send(200, " text/html", "LOCKED");
     }
   });
-
 
 
   //----------------factoryReset--------------
@@ -337,7 +315,6 @@ void Wifi_screen() {
 
 
   //----------------set_pin--------------------           set pin to OXOTP
-  // handle preflight OPTIONS request
   server.on("/set_pin", HTTP_OPTIONS, []() {
     server.send(200);
   });
@@ -351,8 +328,6 @@ void Wifi_screen() {
     if (pin_UNLOCK == pincode) {
       pin_UNLOCK = pin;
       NVS.setString ("pincode", pin);
-      // server.sendHeader("Access-Control-Allow-Origin", "*");
-      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "OK");
     } else {
       server.send(200, " text/html", "LOCKED");
@@ -372,12 +347,8 @@ void Wifi_screen() {
     String  pin = jsondata["pin"];
     String  pincode = NVS.getString ("pincode");
 
-
     if (pin == pincode) {
-
       pin_UNLOCK = pin;
-      // server.sendHeader("Access-Control-Allow-Origin", "*");
-      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "OK");
     } else {
       server.send(200, " text/html", "LOCKED");
@@ -416,7 +387,6 @@ void Wifi_screen() {
   });
 
 
-
   //----------------getOTPs--------------              get the OXOTP list
   server.on("/getOTPs", HTTP_GET, []() {
     previousMillis = millis();
@@ -445,16 +415,6 @@ void Wifi_screen() {
 
     server.send(200, "text/html", dataout);
   });
-
-
-  // -- Set WiFi endpoint. Payload is a JSON object with the following fields:
-  
-    // "mode" (string): "AP" or "STA"
-    // "ssid" (string): SSID of the network to connect to
-    // "password" (string): Password of the network to connect to or the password for the AP
-    // "passwordMode" (bool): true or false
-
-  
 
   server.on("/setWifi", HTTP_OPTIONS, []() {
     server.send(200);
@@ -507,13 +467,29 @@ server.on("/setWifi", HTTP_POST, []() {
       server.send(200, "text/html", dataout);
   });
 
+// Get Battery Level and Charging Status
+  server.on("/getBattery", HTTP_GET, []() {
+    previousMillis = millis();
+    jsondata.clear();
+
+    float voltage = M5.Power.getBatteryVoltage();
+    float percentage = M5.Power.getBatteryLevel();
+    bool charging = M5.Power.isCharging();
+
+    jsondata["voltage"] = voltage;
+    jsondata["percentage"] = percentage;
+    jsondata["charging"] = charging;
+
+    String dataout = "";
+    serializeJson(jsondata, dataout);
+
+    server.send(200, "text/html", dataout);
+  });
 
 
   server.begin();
   while (switchscreen() == false) {
     server.handleClient();
-
-
   }
   WiFi.mode(WIFI_OFF);
 }

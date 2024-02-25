@@ -19,8 +19,8 @@ void  Time_screen() {
 
     if (sec != second() | firstloadScreen) {
       firstloadScreen = false;
-      //M5.Lcd.fillRect(0, 17, 160, 63, BLACK);
-      M5.Lcd.fillScreen(TFT_BLACK);
+      // clear the screen, except the toolbar area
+      M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, TFT_BLACK);
       sec = second();
 
       String timedatenow = getString_2digit(hour()) + ":" + getString_2digit(minute()) + ":" + getString_2digit(second());

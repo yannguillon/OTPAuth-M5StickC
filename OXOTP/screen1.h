@@ -22,7 +22,9 @@ void OTP_screen() {
     if (how_many_otp_registred == 0) {
       if (firstloadScreen) {
 
-        M5.Lcd.fillScreen(BLACK);
+        //M5.Lcd.fillScreen(BLACK);
+        // fill the screen with black color, except the toolbar
+        M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, TFT_BLACK);
 
         if (current_screen == STICKC) {
           M5.Lcd.setCursor(10, 32); 

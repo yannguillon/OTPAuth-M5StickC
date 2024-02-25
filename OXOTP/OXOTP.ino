@@ -14,6 +14,7 @@
 #define timeout_ScreenOn 180000            // The time at which the OXOTP shutdown after inactivity
 #define lcd_brightness 100                   // brightness of the LCD
 
+
 // timeout and brightness could set on app later
 
 String rondom_letters = "AEF2345689";      // This string contains the characters used to generate the wifi password
@@ -102,4 +103,5 @@ void loop() {
   }
 
   switchscreen();
+  
 }
