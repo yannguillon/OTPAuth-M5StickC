@@ -44,6 +44,8 @@ Always keep a backup (even on paper) of your secrets if you intend to use this a
  - Beautify the UI, add an alternative Light UI.
  - Add **Pincode** for the webapp
  - Make poweroff timer and screen brightness tweakable.
+ - Export Secrets API
+ - OTA updates. 
 
 ### COMPATIBILITY
 - M5StickCPLus 2
