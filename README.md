@@ -6,7 +6,7 @@
 -------
 <h3><b>⚠️The program is under active development and currently no binaries are provided. </b> </h3>
 
-Reimplementation of the original **OXOTP** work of @IMSHOX, with added compatibility for *M5StickCPlus* and *M5StickCPlus*, and a new web application.
+Reimplementation of the original **OXOTP** work of @IMSHOX, with added compatibility for *M5StickCPlus* and *M5StickCPlus 2*, and a new web application.
 
 -<p align="center"><img alt="otps section" src="img/screenshot_otps.png" width="350"></p>
 
@@ -51,6 +51,11 @@ Always keep a backup (even on paper) of your secrets if you intend to use this a
  - Beautify the UI, add an alternative Light UI.
  - Add **Pincode** for the webapp
  - Make poweroff timer and screen brightness tweakable.
+
+### COMPATIBILITY
+- M5StickCPLus 2
+- M5StickCPlus
+- M5Stick (not tested yet)
 
 ## License 
 
