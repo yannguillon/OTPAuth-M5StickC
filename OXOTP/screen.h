@@ -102,14 +102,11 @@ static unsigned char logoapp_bits[] = {
 
 void drawBattery() {
   // draw battery, get battery level and draw a rectangle filled with the level
-
   float batteryLevel = M5.Power.getBatteryLevel();
-
-  Serial.println(batteryLevel);
 
   // draw the outer base rectangle with white color, the inner rectangle with black color,
   // then fill the inner rectangle with greencolor with the battery level
-  int batteryLevelWidth = (int)(batteryLevel / 100.0 * (battery_width - batt_border * 2));
+  int batteryLevelWidth = (int)(batteryLevel / 100.0 * (battery_width - batt_border));
 
   int batt_x = screen_x - battery_width - batt_margin;
   int batt_y = batt_margin;

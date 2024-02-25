@@ -405,7 +405,7 @@
       const passwordModeDiv = document.getElementById('passwordModeDiv');
       const ssidInput = document.getElementById('ssidInput');
       passwordModeDiv.style.display = wifiMode === 'STA' ? 'none' : 'block';
-      ssidInput.disabled = wifiMode === 'STA';
+      ssidInput.disabled = wifiMode != 'STA';
     }
 
     // Apply button click event
