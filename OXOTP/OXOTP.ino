@@ -28,11 +28,7 @@ String rondom_letters = "AEF2345689";      // This string contains the character
 #include<ArduinoJson.h>
 #include"ArduinoNvs.h"
 
-// ! uncomment only the m5stick model used
-
-#include<M5StickCPlus2.h>
-//#include<M5StickCPlus.h>
-//#include<M5StickC.h>
+#include"M5Unified.h"
 
 // Run-Time Variables //
 
