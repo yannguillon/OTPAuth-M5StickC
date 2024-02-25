@@ -19,27 +19,29 @@
       content: "";
     }
     [role=tab] {
-      border-bottom: 6px purple solid;
-      padding-block: 1.5rem;
+      border-bottom: 5px purple solid;
+      padding-block:0.6rem;
       margin: auto;
       color: var(--secondary);
-      background: aliceblue;
+      background: rgba(121, 255, 251, 0.071);
       transition: all .25s;
-      border-radius: 60px;
+      border-radius:20px;
       margin-top: 3px;
       margin-bottom: 3px;
 
     }
     [role=tab][aria-current]{
-      color: var(--contrast)!important;
-      border-color: aquamarine  ;
-      background-color: cadetblue;
-      -webkit-text-fill-color: aliceblue;
-      
-      
+      color: aliceblue;
+      border-color: rgb(139, 224, 197);
+      background-color: rgb(33, 166, 146);    
+    }
+    [role=tab]:hover{
+      color: aliceblue;
+      border-color: rgb(37, 233, 213);
+      background-color: rgb(7, 69, 60);    
     }
     section {
-      margin: calc(var(--block-spacing-vertical)*0.5) 0;
+     margin: calc(var(--block-spacing-vertical)*0.5) 0;
     }
     section [role=tabpanel] {
       animation-duration: 0.3s;
@@ -82,18 +84,20 @@
     color: white;
     padding: 4px 8px;
     border-radius: 10px;
-    box-shadow: 0 0.6px 3px 0 blueviolet;
+    box-shadow: 0 0.6px 3px 0 purple;
     cursor: pointer;
   }
 
   .unixButton {
     margin-top: 0.5rem;
     margin-bottom: 2.5rem;
-    background-color: white;
-    border : 2px solid blueviolet;
-    padding: 10px 6rem;
-    border-radius: 9px;
-    color: blueviolet ;
+    background-color: rgba(255, 255, 255, 0.047);
+    border : 2px solid rgb(203, 158, 244);
+    padding: 5px 10px;
+    border-radius: 6px;
+    color: purple;
+    margin: auto;
+    display: block;
   }
   .unixButton:hover {
     background-color: blueviolet;
@@ -101,12 +105,18 @@
   }
 
   .applyButton {
-    margin-top: 2.5rem;
-    background-color: blueviolet;
-    border : 2px solid yellowgreen;
+    margin-top: 2px;
+    background-color: rgba(255, 255, 255, 0.047);
+    border : 2px solid rgb(203, 158, 244);
+    padding: 10px 40%;
+    border-radius: 6px;
+    color: purple;
+    display: block;
+    margin: auto;
+  }
+  .applyButton:hover {
+    background-color: purple;
     color: white;
-    padding: 10px 6rem;
-    border-radius: 9px;
   }
 
 
@@ -126,19 +136,16 @@
   </nav>
 
 </header>
-
-<main class="container">
+<body main class="container" style="padding-left: 15%; padding-right: 15%;">
   <section>
     <div role="tabpanel">
       <h3>OTP LIST</h3>
       <ul id="otpList"></ul>
     </div>
     <div role="tabpanel" hidden>
-      <section>
-        <main class="container" style="padding-left: 10%; padding-right: 10%;">
-          <button id="unixButton" class="unixButton">Sync Time</button> <br>
-      </section>
-      <section>
+
+    <button id="unixButton" class="unixButton">Sync Time</button> <br>
+     
       <h4>Wifi Configuration</h4> 
       
         Wifi Mode:
@@ -157,15 +164,14 @@
         </div>
 
         <button id="applyButton" class="applyButton">Apply</button><br>
-      </section>
+      
+    </section>
 
 
-     
-    </div>
     <div role="tabpanel" hidden>
       <h3>Manual Add</h3>
      
-<body main class="container" style="padding-left: 10%; padding-right: 10%;">
+
   
   <form id="addForm" action="/add" method="post">
     <label for="id">ID:</label><br>
@@ -191,7 +197,8 @@
   </section>
 </main>
 
-</body>
+
+
 
 <footer class="container">
   <p>OXOTP+ 2024</p>
@@ -396,7 +403,9 @@
     function togglePasswordModeVisibility() {
       const wifiMode = document.getElementById('wifiModeSelect').value;
       const passwordModeDiv = document.getElementById('passwordModeDiv');
+      const ssidInput = document.getElementById('ssidInput');
       passwordModeDiv.style.display = wifiMode === 'STA' ? 'none' : 'block';
+      ssidInput.disabled = wifiMode === 'STA';
     }
 
     // Apply button click event
