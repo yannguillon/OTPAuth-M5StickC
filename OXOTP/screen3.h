@@ -85,6 +85,9 @@ void Wifi_screen() {
   // If the connection failed, fallback to AP mode
   if (Wifi_Mode != "AP" && WiFi.status() != WL_CONNECTED) {
     Serial.println("Failed to connect to the specified network. Falling back to AP mode.");
+    Wifi_SSID = ssid_mac;
+    Wifi_Mode = "AP";
+
     WiFi.mode(WIFI_AP);
     WiFi.softAP(AP_ssid, password);
     Serial.println("AP mode started, ssid: " + String(AP_ssid) + ", password: " + password);
@@ -98,10 +101,10 @@ void Wifi_screen() {
 
   M5.Lcd.fillRect(60, 22, wait_icon_width, wait_icon_height, BLACK);
   M5.Lcd.setFreeFont(&beta10pt7b);
-  M5.Lcd.setCursor(10, 36);
+  M5.Lcd.setCursor(9, 36);
   M5.Lcd.print ("CONNECT TO:");
   M5.Lcd.setFreeFont(&beta8pt7b);
-  M5.Lcd.setCursor(10, 64);
+  M5.Lcd.setCursor(10, 60);
   M5.Lcd.print (Wifi_SSID);
 
 
@@ -109,8 +112,14 @@ void Wifi_screen() {
   // we don't want to show the password in the screen if not in AP mode
   if (Wifi_Mode == "AP") {
     M5.Lcd.print (Wifi_PASSWORD);
-  } else {
+    M5.Lcd.setFreeFont(&beta5pt7b);
+    // print ip
+    M5.Lcd.setCursor(10, 110);
     // print the ip address in the screen
+    M5.Lcd.print ("192.168.4.1");
+
+  } else {
+    // print just the ip
     M5.Lcd.print (WiFi.localIP().toString());
   }
 
