@@ -264,9 +264,6 @@ void Wifi_screen() {
       deserializeJson(jsondata, server.arg(0));
       String  data1 = jsondata["data"];
 
-      // server.sendHeader("Access-Control-Allow-Origin", "*");
-      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
-
       server.send(200, " text/html", "OK");
       NVS.eraseAll();
       ESP.restart();
@@ -291,8 +288,6 @@ void Wifi_screen() {
     if (pincode == "") {
       server.send(200, " text/html", "NOT");
     } else {      
-      // server.sendHeader("Access-Control-Allow-Origin", "*");
-      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "OK");
     }
   });
@@ -310,8 +305,6 @@ void Wifi_screen() {
     String  pincode = NVS.getString ("pincode");
 
     if (pin_UNLOCK == pincode) {
-      // server.sendHeader("Access-Control-Allow-Origin", "*");
-      // server.sendHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
       server.send(200, " text/html", "UNLOCKED");
     } else {
       server.send(200, " text/html", "LOCKED");

@@ -87,14 +87,28 @@
   }
 
   .unixButton {
-    margin-top: 5px;
-    background-color: cadetblue;
-    border: none;
-    color: white;
-    padding: 10px 3rem;
-    border-radius: 5px;
-    cursor: pointer;
+    margin-top: 0.5rem;
+    margin-bottom: 2.5rem;
+    background-color: white;
+    border : 2px solid blueviolet;
+    padding: 10px 6rem;
+    border-radius: 9px;
+    color: blueviolet ;
   }
+  .unixButton:hover {
+    background-color: blueviolet;
+    color: white;
+  }
+
+  .applyButton {
+    margin-top: 2.5rem;
+    background-color: blueviolet;
+    border : 2px solid yellowgreen;
+    color: white;
+    padding: 10px 6rem;
+    border-radius: 9px;
+  }
+
 
     </style>
 
@@ -104,7 +118,7 @@
 <header class="container">
 
   <nav aria-label="breadcrumb">
-    <h4 style="margin-right: 0.9rem; min-width: 9px;">OXOTP</h4>
+    <h4 style="margin-right: 0.9rem; min-width: 9px;">OXOTP+</h4>
         <li><button role="tab">Overview</li>
         <li><button role= "tab">Config</button>
         <li><button role="tab">+</li>
@@ -120,11 +134,31 @@
       <ul id="otpList"></ul>
     </div>
     <div role="tabpanel" hidden>
-   
-      <h3>Configuration</h3>
-      <p> 
-        <button id="unixButton" class="unixButton">Sync Time</button>
-      </p>
+      <section>
+        <main class="container" style="padding-left: 10%; padding-right: 10%;">
+          <button id="unixButton" class="unixButton">Sync Time</button> <br>
+      </section>
+      <section>
+      <h4>Wifi Configuration</h4> 
+      
+        Wifi Mode:
+        <select id="wifiModeSelect">
+          <option value="AP">AP</option>
+          <option value="STA">Host</option>
+        </select><br>
+        SSID: <input type="text" id="ssidInput"><br>
+        Password: <input type="password" id="passwordInput"><br>
+        <div id="passwordModeDiv">
+          Password Mode:
+          <select id="passwordModeSelect">
+            <option value="0">Random</option>
+            <option value="1">Fixed</option>
+          </select>
+        </div>
+
+        <button id="applyButton" class="applyButton">Apply</button><br>
+      </section>
+
 
      
     </div>
@@ -132,8 +166,6 @@
       <h3>Manual Add</h3>
      
 <body main class="container" style="padding-left: 10%; padding-right: 10%;">
-  
-  
   
   <form id="addForm" action="/add" method="post">
     <label for="id">ID:</label><br>
@@ -144,13 +176,11 @@
     <input type="text" id="label" name="label"><br>
     <label for="user">User:</label><br>
     <input type="text" id="user" name="user"><br>
-    <input type="submit" value="Send">
+    <input type="submit" value="Add">
   </form>
   
-  
 
-   
-    </div> <!-- end of configuration panel -->
+    </div> <!-- end of add otp panel -->
     <div role="tabpanel" hidden>
       <h4>OXOTP+</h4> 
       <p>
@@ -161,6 +191,10 @@
   </section>
 </main>
 
+</body>
+
+<footer class="container">
+  <p>OXOTP+ 2024</p>
 
 <script>
 
@@ -195,7 +229,6 @@
     });
   });
 
-
   // --- ADD OTP FORM SUBMISSION LOGIC ---
 
   // Update the ID value in the delete form when submitting the add form
@@ -203,7 +236,7 @@
     event.preventDefault(); // Prevent form submission
     var id = document.getElementById('id').value;
     var keyString = document.getElementById('key').value;
- // Decode Base32 key string
+
     var keyArray = base32Decode(keyString);
     var hmac_length = keyArray.length;
 
@@ -213,8 +246,6 @@
     var label = document.getElementById('label').value;
     var user = document.getElementById('user').value;
 
-
-    // Create payload object
     var payload = {
       "id": id,
       "data": keyArray,
@@ -223,7 +254,6 @@
       "hmac_length": hmac_length
     };
 
-    // Perform POST request
     fetch(`${baseUrl}/add`, {
       method: 'POST',
       headers: {
@@ -275,7 +305,6 @@
   });
 });
 
-// --- end of unixButton logic ---
 
 // --- BASE32 DECODING LOGIC ---
 
@@ -343,10 +372,68 @@
     });
   }
 
-  // --- end of deleteOTP function ---
-    // --- end of getOTPs logic ---
+
+// ! --- CONFIGURATION LOGIC ---
+
+    // Function to populate fields with initial values
+  function populateFields(data) {
+      document.getElementById('wifiModeSelect').value = data.mode;
+      document.getElementById('ssidInput').value = data.ssid;
+      // Password field is intentionally left blank for security reasons
+      document.getElementById('passwordModeSelect').value = data.passwordMode;
+      togglePasswordModeVisibility(); // Toggle password mode visibility based on wifi mode
+    }
+
+    // Fetch initial values from server
+    fetch(`${baseUrl}/getWifi`)
+      .then(response => response.json())
+      .then(data => {
+        populateFields(data);
+      })
+      .catch(error => console.error('Error fetching initial values:', error));
+
+    // Toggle password mode visibility based on wifi mode
+    function togglePasswordModeVisibility() {
+      const wifiMode = document.getElementById('wifiModeSelect').value;
+      const passwordModeDiv = document.getElementById('passwordModeDiv');
+      passwordModeDiv.style.display = wifiMode === 'STA' ? 'none' : 'block';
+    }
+
+    // Apply button click event
+    document.getElementById('applyButton').addEventListener('click', function() {
+      const wifiMode = document.getElementById('wifiModeSelect').value;
+      const ssid = document.getElementById('ssidInput').value;
+      const password = document.getElementById('passwordInput').value;
+      const passwordMode = document.getElementById('passwordModeSelect').value;
+
+      const payload = {
+        "mode": wifiMode,
+        "ssid": ssid,
+        "password": password,
+        "passwordMode": passwordMode
+      };
+
+      fetch(`${baseUrl}/setWifi`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(response => response.text())
+      .then(message => {
+        alert(message); // Display server response
+      })
+      .catch(error => {
+        console.error('Error applying settings:', error);
+      });
+    });
+
+    // Add event listener to wifi mode select to toggle password mode visibility
+    document.getElementById('wifiModeSelect').addEventListener('change', togglePasswordModeVisibility);
+  // ! --- end of configuration logic ---
     
   </script>
 
-</body>
+
 </html>
