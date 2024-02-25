@@ -55,6 +55,9 @@ void Wifi_screen() {
   char password[Wifi_PASSWORD.length() + 1];
   Wifi_PASSWORD.toCharArray(password, Wifi_PASSWORD.length() + 1);
 
+  M5.Lcd.fillScreen(TFT_BLACK);
+  M5.Lcd.drawXBitmap(60, 22, wait_icon, wait_icon_width, wait_icon_height, TFT_WHITE, TFT_BLACK);      // wait icon
+
   if (Wifi_Mode == "AP") {
     Serial.println("Starting in AP mode");
     WiFi.mode(WIFI_AP);
@@ -94,27 +97,47 @@ void Wifi_screen() {
   }
 
 
-
-  //M5.Lcd.fillRect(0, 17, 160, 63, BLACK);
-  M5.Lcd.fillScreen(TFT_BLACK);
-  M5.Lcd.drawXBitmap(60, 22, wait_icon, wait_icon_width, wait_icon_height, TFT_WHITE, TFT_BLACK);      // wait icon
-
+  // clear the wait icon
   M5.Lcd.fillRect(60, 22, wait_icon_width, wait_icon_height, BLACK);
-  M5.Lcd.setFreeFont(&beta10pt7b);
-  M5.Lcd.setCursor(9, 36);
+
+  if (current_screen == STICKC) {
+    M5.Lcd.setFreeFont(&beta8pt7b);
+    M5.Lcd.setCursor(10, 33);
+  } else {
+    M5.Lcd.setFreeFont(&beta10pt7b);
+    M5.Lcd.setCursor(9, 36);
+  }
   M5.Lcd.print ("CONNECT TO:");
-  M5.Lcd.setFreeFont(&beta8pt7b);
-  M5.Lcd.setCursor(10, 60);
-  M5.Lcd.print (Wifi_SSID);
 
 
-  M5.Lcd.setCursor(10, 90);
+  if (current_screen == STICKC) {
+    M5.Lcd.setFreeFont(&beta5pt7b);
+    M5.Lcd.setCursor(10, 48);
+  } else {
+    M5.Lcd.setFreeFont(&beta8pt7b);
+    M5.Lcd.setCursor(10, 60);
+  }
+   M5.Lcd.print (Wifi_SSID);
+
+    if (current_screen == STICKC) {
+      M5.Lcd.setFreeFont(&beta5pt7b);
+      M5.Lcd.setCursor(10, 61);
+    } else {
+      M5.Lcd.setFreeFont(&beta8pt7b);
+      M5.Lcd.setCursor(10, 90);
+    }
+
   // we don't want to show the password in the screen if not in AP mode
   if (Wifi_Mode == "AP") {
+
     M5.Lcd.print (Wifi_PASSWORD);
     M5.Lcd.setFreeFont(&beta5pt7b);
     // print ip
-    M5.Lcd.setCursor(10, 110);
+    if (current_screen == STICKC) {
+      M5.Lcd.setCursor(10, 74);
+    } else {
+      M5.Lcd.setCursor(10, 110);
+    }
     // print the ip address in the screen
     M5.Lcd.print ("192.168.4.1");
 

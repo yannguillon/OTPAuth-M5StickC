@@ -1,66 +1,39 @@
 /*
-   .+ydmmmmmmmmmmmmmmdho:`     .ymms-              -ymmy.                       
- .ymmmmmmmmmmmmmmmmmmmmmmd+    /mmmmmy-          -ymmmmm/                       
--mmmmmho+++++++++++++smmmmmy    :hmmmmmy-      -ymmmmmy-                        
-hmmmm/                `ymmmm/     :hmmmmmy-  -ymmmmmy-                          
-mmmmm                  :mmmms       -ymmmmmyymmmmmy-                            
-mmmmm                  :mmmmy         -ymmmmmmmmy-                              
-mmmmm                  :mmmmy          -dmmmmmmd-                               
-mmmmm                  :mmmmy        :hmmmmmmmmmmy-                             
-mmmmm`                 +mmmmo      :hmmmmmy--ymmmmmy-                           
-ommmmd/`             -ommmmm.    :hmmmmmy-    -ymmmmmy:                         
- ommmmmmmmmmmmmmmmmmmmmmmmd-   .hmmmmmy-        -ymmmmmh.                       
-  -sdmmmmmmmmmmmmmmmmmmmh/`    /mmmmy-            -ymmmm/                       
-     .:/+++++++++++++/-`        -+/.                ./+-                        
-                                                                                
-     :+sssssssssssssso/.        +ssssssssssssssssssss`     `sssssssssssssso/.   
-  `odo-`            `./yh-                m:               .m:            ./yh- 
-  yh`                   :m:               m:               .m:               :m/
- .m-                     sh               m:               .m:                om
- .m.                     sh               m:               .m:                od
- .m.                     sh               m:               .m:               /m:
- .m.                     sh               m:               .m:           `-+hs. 
- .m.                     sh               m:               .myooooooooooooo:`   
- `do                    `do               m:               .m:                  
-  .hy-                `/do                m:               .m:                  
-    :shyssssssssssssyyy+`                 m:               .m-                  
-  
-   
+    OXOTP+
    ------------------------------------------
+      Copyright (c) 2024 Alex Licata
       Copyright (c) 2020 Mezghache imad
-             github.com/spacehuhn
+            github.com/xick/OXOTP
   -------------------------------------------
  */
 
-
-
-//Download OXOTP APP now ANDROID ONLY, can be made for IOS/WINDOWS but in the future.
-//Connect to OXOTP with app instructions.
-
-
-
-
+// Go to WIFI settings and connect to the specified Access point. 
+// Then go to http://192.168.4.1/ to configure
 
 #define maxOTPs 30                         // max OTP can hande OXOTP
-#define timeout_ScreenOn 180000 * 100            // The time at which the OXOTP shutdown after inactivity
-#define lcd_brightness 18                   // brightness of the LCD
+#define timeout_ScreenOn 180000            // The time at which the OXOTP shutdown after inactivity
+#define lcd_brightness 100                   // brightness of the LCD
+
+// timeout and brightness could set on app later
 
 String rondom_letters = "AEF2345689";      // This string contains the characters used to generate the wifi password
-
 
 #include<WiFi.h>
 #include<WebServer.h>
 #include<WiFiAP.h>
 #include <WiFi.h>
 #include<TOTP.h>
-#include<M5StickCPlus2.h>
 #include<TimeLib.h>
 #include<ArduinoJson.h>
 #include"ArduinoNvs.h"
 
+// ! uncomment only the m5stick model used
+
+#include<M5StickCPlus2.h>
+//#include<M5StickCPlus.h>
+//#include<M5StickC.h>
 
 // Run-Time Variables //
-
 
 WebServer server(80);
 
@@ -68,7 +41,6 @@ WebServer server(80);
 #include"beta10pt7b.h"
 #include"beta8pt7b.h"
 #include"beta5pt7b.h"
-
 
 #include"variable_runtime.h"
 #include"index.h"
@@ -78,6 +50,7 @@ WebServer server(80);
 #include"screen1.h"
 #include"screen2.h"
 #include"screen3.h"
+#include"math.h"
 
 void setup() {
 
@@ -85,29 +58,37 @@ void setup() {
   while (!Serial);
 
   auto cfg = M5.config();
-  StickCP2.begin(cfg);
-  //M5.Axp.ScreenBreath(lcd_brightness);
-  M5.Display.setBrightness(lcd_brightness);
+  M5.begin(cfg);
+
+  M5.Display.setBrightness(lcd_brightness); // 0 - 255
   NVS.begin();
 
-  Serial.println("===============ESP32-OXOTP==============");
-  Serial.println("================= V 1.0 ================");
-  Serial.println("===============ESP32-OXOTP==============");
+  Serial.println("===============ESP32-OXOTP+==============");
+  Serial.println("================= V 0.9 ================");
+  Serial.println("===============ESP32-OXOTP+==============");
 
   M5.Rtc.getTime(&TimeStruct);
   M5.Rtc.getDate(&DateStruct);
 
   M5.Lcd.setRotation(3);
+  screen_x = M5.Lcd.width();
+  screen_y = M5.Lcd.height();
+
+  if (screen_x == 135) {
+    current_screen = STICKC;
+  } else {
+    current_screen = STICKCPLUS;
+  }
+
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setTextSize(1);
 
   setTime(TimeStruct.hours, TimeStruct.minutes, TimeStruct.seconds, DateStruct.date, DateStruct.month, DateStruct.year);
-
 }
 
 void loop() {
 
-//   this handle the switch 
+//   this handle the switch
   switch (menu_index) {
     case 0:
       OTP_screen();
@@ -119,6 +100,6 @@ void loop() {
       Wifi_screen();
       break;
   }
-  
-  switchscreen();                       
+
+  switchscreen();
 }

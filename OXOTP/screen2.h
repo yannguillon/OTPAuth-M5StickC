@@ -24,14 +24,28 @@ void  Time_screen() {
       sec = second();
 
       String timedatenow = getString_2digit(hour()) + ":" + getString_2digit(minute()) + ":" + getString_2digit(second());
-      M5.Lcd.setCursor(4, 39);
+      
+      if (current_screen == STICKC) {
+        M5.Lcd.setFreeFont(&beta15pt7b); // todo add 21pt font
+        M5.Lcd.setCursor(1, 30);
+      } else {
+        M5.Lcd.setFreeFont(&beta15pt7b);
+        M5.Lcd.setCursor(15, 35);
+      }
       M5.Lcd.setTextColor(WHITE, BLACK);
-      M5.Lcd.setFreeFont(&beta15pt7b);
       M5.Lcd.print(timedatenow);
 
       timedatenow = getString_2digit(day()) + "/" + getString_2digit(month()) + "/" + String(year());
-      M5.Lcd.setCursor(4, 90);
-      M5.Lcd.setFreeFont(&beta10pt7b);
+
+      if (current_screen == STICKC) {
+        M5.Lcd.setCursor(1, 64);
+        M5.Lcd.setFreeFont(&beta10pt7b); // todo set 15pt font
+      } else {
+        M5.Lcd.setCursor(15, 90);
+        M5.Lcd.setFreeFont(&beta10pt7b);
+      }
+      
+      
       M5.Lcd.print(timedatenow);
     }
   }

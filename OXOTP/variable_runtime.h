@@ -5,6 +5,15 @@ StaticJsonDocument<2000> jsondata;
 m5::rtc_time_t TimeStruct;
 m5::rtc_date_t DateStruct;
 
+int screen_x;
+int screen_y;
+
+enum screen {
+  STICKC,
+  STICKCPLUS,
+};
+
+enum screen current_screen;
 
 unsigned long previousMillis = 0;
 

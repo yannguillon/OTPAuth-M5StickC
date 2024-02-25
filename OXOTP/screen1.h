@@ -22,22 +22,39 @@ void OTP_screen() {
     if (how_many_otp_registred == 0) {
       if (firstloadScreen) {
 
-        //M5.Lcd.fillRect(0, 17, 160, 60, BLACK);
-        M5.Lcd.fillScreen(TFT_BLACK);
+        M5.Lcd.fillScreen(BLACK);
 
-        M5.Lcd.setCursor(10, 32);
+        if (current_screen == STICKC) {
+          M5.Lcd.setCursor(10, 32); 
+        } else {
+          M5.Lcd.setCursor(10, 32);
+        }
         M5.Lcd.setFreeFont(&beta5pt7b);
-        M5.Lcd.print("DOWNLOAD");
+        M5.Lcd.print("NO OTPs");
 
-        M5.Lcd.setCursor(10, 43);
+        if (current_screen == STICKC) {
+          M5.Lcd.setCursor(10, 43);
+        } else {
+          M5.Lcd.setCursor(10, 43);
+        }
         M5.Lcd.setFreeFont(&beta5pt7b);
-        M5.Lcd.print("APP");
+        M5.Lcd.print("GO TO WIFI SETUP");
 
-        M5.Lcd.setCursor(10, 60);
+        if (current_screen == STICKC) {
+          M5.Lcd.setCursor(10, 60);
+        } else {
+          M5.Lcd.setCursor(10, 60);
+        }
+
         M5.Lcd.setFreeFont(&beta8pt7b);
-        M5.Lcd.print("OXOTP");
+        M5.Lcd.print("OXOTP+");
 
-        M5.Lcd.drawXBitmap(90, 17, logoapp_bits, logoapp_width, logoapp_height, BLACK, WHITE);
+        // if (current_screen == STICKC) {
+        //    M5.Lcd.drawXBitmap(90, 17, logoapp_bits, logoapp_width, logoapp_height, BLACK, WHITE);
+        // } else {
+        //    M5.Lcd.drawXBitmap(90, 17, logoapp_bits, logoapp_width, logoapp_height, BLACK, WHITE);
+        // }
+       
 
         firstloadScreen = false;
       }
@@ -66,20 +83,36 @@ void OTP_screen() {
       if (totpCode != newCode | firstloadScreen) {
 
         firstloadScreen = false;
-        M5.Lcd.fillRect(0, 17, 160, 60, BLACK);
+        M5.Lcd.fillScreen(BLACK);
 
         totpCode = String(newCode);
 
-        M5.Lcd.setCursor(10, 32);
-        M5.Lcd.setFreeFont(&beta5pt7b);
+        if (current_screen == STICKC) {
+          M5.Lcd.setCursor(10, 32);
+          M5.Lcd.setFreeFont(&beta5pt7b);
+        } else {
+          M5.Lcd.setCursor(10, 32);
+          M5.Lcd.setFreeFont(&beta5pt7b);
+        }
+        
         String otpLabel = "L" + String(pointer);
         M5.Lcd.print(String(pointer) + ":" + NVS.getString(otpLabel).substring(0, 10));
 
-        M5.Lcd.setCursor(10, 52);
+        if (current_screen == STICKC) {
+          M5.Lcd.setCursor(10, 42);
+        } else {
+          M5.Lcd.setCursor(10, 42);
+        }
+
         String otpUser = "U" + String(pointer);
         M5.Lcd.print(NVS.getString(otpUser).substring(0, 10));
 
-        M5.Lcd.setCursor(10, 74);
+        if (current_screen == STICKC) {
+          M5.Lcd.setCursor(10, 64);
+        } else {
+          M5.Lcd.setCursor(10, 64);
+        }
+
         M5.Lcd.setFreeFont(&beta15pt7b);
         M5.Lcd.print(newCode);
       }
@@ -88,11 +121,11 @@ void OTP_screen() {
       if (sec != second()) {
         sec = second();
         int OTP_bar = second() % 30;
-        float OTP_bar_per_160 = OTP_bar;
-        OTP_bar_per_160 = (OTP_bar_per_160 / 30) * 160;
-        OTP_bar = OTP_bar_per_160;
-        M5.Lcd.fillRect(0, 120, OTP_bar, 3, (OTP_bar < 130) ? WHITE : RED);
-        M5.Lcd.fillRect(OTP_bar, 120, 160 - OTP_bar, 3, BLACK);
+        float OTP_bar_x = OTP_bar;
+        OTP_bar_x = (OTP_bar_x / 30) * screen_x;
+        OTP_bar = OTP_bar_x;
+        M5.Lcd.fillRect(0, screen_y - 3, OTP_bar, 3, (OTP_bar < 130) ? WHITE : RED);
+        M5.Lcd.fillRect(OTP_bar, screen_y - 3, screen_x - OTP_bar, 3, BLACK);
       }
     } //-----------------------------------timebar----------------------------------------//
   }
