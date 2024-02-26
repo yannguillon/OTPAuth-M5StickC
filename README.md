@@ -29,9 +29,12 @@ You can extract the secret keys from another authenticator app you already use, 
  - Import all the dependencies: 
 	 - M5Unified library
 	 - ArduinoHTTPClient
+	 - ArduinoMDNS
+         - Arduino_ESP32_OTA
 	 - https://github.com/lucadentella/TOTP-Arduino
 	 - https://github.com/bblanchon/ArduinoJson
 	 - https://github.com/rpolitex/ArduinoNvs
+- Select 'Minimal SPIFFS' partition scheme (required for OTA updates) 
 - Build and flash it with Arduino IDE 2
 
 ## DEVELOPED FOR DAILY USE
@@ -40,12 +43,13 @@ Always keep a backup (even on paper) of your secrets if you intend to use this a
 
 ### MILESTONES
  - ~~Add a battery indicator~~ DONE
+ - ~~OTA updates~~  
  - Embed a **QRCode** reader in the webapp
  - Beautify the UI, add an alternative Light UI.
  - Add **Pincode** for the webapp
  - Make poweroff timer and screen brightness tweakable.
  - Export Secrets API
- - OTA updates. 
+
 
 ### COMPATIBILITY
 - M5StickCPLus 2
