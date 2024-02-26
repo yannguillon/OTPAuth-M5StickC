@@ -21,8 +21,10 @@ String rondom_letters = "AEF2345689";      // This string contains the character
 
 #include<WiFi.h>
 #include<WebServer.h>
+#include <WiFiClient.h>
+#include <ESPmDNS.h>
+#include <Update.h>
 #include<WiFiAP.h>
-#include <WiFi.h>
 #include<TOTP.h>
 #include<TimeLib.h>
 #include<ArduinoJson.h>
@@ -42,6 +44,7 @@ WebServer server(80);
 #include"variable_runtime.h"
 #include"index.h"
 #include"css.h"
+#include"favico.h"
 
 #include"screen.h"
 #include"screen1.h"
@@ -61,7 +64,7 @@ void setup() {
   NVS.begin();
 
   Serial.println("===============ESP32-OXOTP+==============");
-  Serial.println("================= V 0.9 ================");
+  Serial.println("================= V 1.0 ================");
   Serial.println("===============ESP32-OXOTP+==============");
 
   M5.Rtc.getTime(&TimeStruct);

@@ -1,11 +1,6 @@
-
-
 <!DOCTYPE html>
-
 <html>
-
 <head>
-
   <link rel="stylesheet" href="css/pico.violet.min.css" />
   <style>
     nav[aria-label=breadcrumb] ul {
@@ -119,9 +114,26 @@
     color: white;
   }
 
+  /* Style for the 'Choose file' button */
+#file-input {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: cadetblue;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#file-input:hover {
+    background-color:  purple;
+}
+
+#file-input:active {
+    background-color: #004080;
+}
 
     </style>
-
 
 </head>
 
@@ -171,8 +183,6 @@
     <div role="tabpanel" hidden>
       <h3>Manual Add</h3>
      
-
-  
   <form id="addForm" action="/add" method="post">
     <label for="id">ID:</label><br>
     <input type="text" id="id" name="id"><br>
@@ -182,22 +192,42 @@
     <input type="text" id="label" name="label"><br>
     <label for="user">User:</label><br>
     <input type="text" id="user" name="user"><br>
-    <input type="submit" value="Add">
+    <input type="submit" class='applyButton' value="Add">
   </form>
   
 
     </div> <!-- end of add otp panel -->
+
+    <!-- Info panel -->
     <div role="tabpanel" hidden>
-      <h4>OXOTP+</h4> 
+      <h4><i>OXOTP+</i></h4> 
       <p>
+
         Copyright (c) 2024 Alex Licata <b>@xick</b> <br>
-        Copyright (c) 2020 Imad Mezghache
+        Copyright (c) 2020 Imad Mezghache <br>
+        </p>
+        ------
+        Current version <b>1.0</b>
+        ------
+        <br>
+        <h4>Update Firmware</h4>
+        <p>Upload the ota firmware file to update the device. <br>
+       </p>
+        <form method='POST' action='#' enctype='multipart/form-data' id='upload_form'>
+          <input type='file' name='update' id='file' onchange='sub(this)' style='display:none;'>
+          <label id='file-input' for='file'>   Choose file...</label>
+          <input type='submit' class='applyButton' value='Update' id = 'update-button' style='display:none;>
+          <br><br>
+          <div id='prg'></div>
+          <br><div id='prgbar'><div id='bar'></div></div><br>
+      </form>
+
+
+
       </p>
     </div> <!-- end of info panel -->
   </section>
 </main>
-
-
 
 
 <footer class="container">
@@ -206,7 +236,7 @@
 <script>
 
   // Define the base endpoint address
-  const baseUrl = '';
+  const baseUrl = 'http://192.168.1.111';
 
   // --- TAB SELECTION LOGIC ---
   const _ = el => [...document.querySelectorAll(el)];
@@ -441,6 +471,45 @@
     // Add event listener to wifi mode select to toggle password mode visibility
     document.getElementById('wifiModeSelect').addEventListener('change', togglePasswordModeVisibility);
   // ! --- end of configuration logic ---
+
+  // ! --- FIRMWARE UPDATE LOGIC ---
+
+      // Enable or disable the update button based on whether a file is selected
+    document.getElementById('file').addEventListener('change', function() {
+        document.getElementById('update-button').style.display = this.value ? 'block' : 'none';
+    });
+  function sub(obj) {
+            var fileName = obj.value.split('\\');
+            document.getElementById('file-input').innerHTML = '   ' + fileName[fileName.length - 1];   
+          }
+
+        document.getElementById('upload_form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            var form = document.getElementById('upload_form');
+            var data = new FormData(form);
+            var xhr = new XMLHttpRequest();
+
+            xhr.upload.addEventListener('progress', function(evt) {
+                if (evt.lengthComputable) {
+                    var per = evt.loaded / evt.total;
+                    document.getElementById('prg').innerHTML = 'progress: ' + Math.round(per * 100) + '%';
+                    document.getElementById('bar').style.width = Math.round(per * 100) + '%';
+                }
+            }, false);
+
+            xhr.open('POST', '/update', true);
+            xhr.send(data);
+            xhr.onload = function() {
+                console.log('success!');
+                alert('Firmware updated successfully!');
+            };
+            xhr.onerror = function() {
+                console.error('error!');
+                alert('Error: Unable to reach the server.');
+            };
+        });
+
+  // ! --- end of firmware update logic ---
     
   </script>
 

@@ -85,7 +85,8 @@ void OTP_screen() {
       if (totpCode != newCode | firstloadScreen) {
 
         firstloadScreen = false;
-        M5.Lcd.fillScreen(BLACK);
+        // fill the screen with black color, except the toolbar
+        M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, TFT_BLACK);
 
         totpCode = String(newCode);
 
@@ -98,7 +99,11 @@ void OTP_screen() {
         }
         
         String otpLabel = "L" + String(pointer);
-        M5.Lcd.print(String(pointer) + ":" + NVS.getString(otpLabel).substring(0, 10));
+        int charsNumber = 25;
+        if (current_screen == STICKC) {
+          charsNumber = 15;
+        }
+        M5.Lcd.print(String(pointer) + ":" + NVS.getString(otpLabel).substring(0, charsNumber));
 
         if (current_screen == STICKC) {
           M5.Lcd.setCursor(10, 42);
@@ -107,7 +112,7 @@ void OTP_screen() {
         }
 
         String otpUser = "U" + String(pointer);
-        M5.Lcd.print(NVS.getString(otpUser).substring(0, 10));
+        M5.Lcd.print(NVS.getString(otpUser).substring(0, charsNumber));
 
         if (current_screen == STICKC) {
           M5.Lcd.setCursor(10, 64);

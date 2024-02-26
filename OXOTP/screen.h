@@ -100,6 +100,14 @@ static unsigned char logoapp_bits[] = {
   0xff, 0xff, 0xff, 0xff
 };
 
+void show_wait_icon() {
+  M5.Lcd.drawXBitmap(60, 22, wait_icon, wait_icon_width, wait_icon_height, TFT_WHITE, TFT_BLACK);
+}
+
+void clear_wait_icon() {
+  M5.Lcd.fillRect(60, 22, wait_icon_width, wait_icon_height, BLACK);
+}
+
 void drawBattery() {
   // draw battery, get battery level and draw a rectangle filled with the level
   float batteryLevel = M5.Power.getBatteryLevel();

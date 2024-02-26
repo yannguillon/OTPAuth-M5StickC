@@ -24,3 +24,5 @@ int passwordMode = 0; // 0 random, 1 fixed
 String Wifi_Mode = "AP"; // Default mode
 String Wifi_SSID = "";
 String Wifi_PASSWORD = "";
+
+bool _mdnsStarted = false;
