@@ -4,7 +4,6 @@
 2. DOWNLOAD the Last Release for your platform here <a href="https://github.com/xick/OXOTP-plus/releases" target="_blank">HERE</a> 
 3. Open Flash Download Tool 
 4. <p><img  src="img/how4.png" width="500"></p>
-5. <p><img  src="img/how3.png" width="500"></p>
 6. <p><img  src="img/how5.png" width="500"></p>
 
 ### Restart your M5StickC after the flash is finished and enjoy it
