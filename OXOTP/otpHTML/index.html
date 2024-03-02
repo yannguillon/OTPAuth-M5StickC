@@ -92,14 +92,30 @@
     border-radius: 6px;
     color: purple;
     margin: auto;
-    display: block;
   }
   .unixButton:hover {
     background-color: blueviolet;
     color: white;
   }
 
-  .applyButton {
+  .resetButton {
+    margin-top: 0.5rem;
+    margin-bottom: 2.5rem;
+    background-color: rgba(255, 255, 255, 0.047);
+    border : 2px solid rgb(203, 158, 244);
+    padding: 5px 10px;
+    border-radius: 6px;
+    color: crimson;
+    margin: auto;
+    display: block;
+  }
+
+  .resetButton:hover {
+    background-color: red;
+    color: white;
+  }
+
+  .applyWifiButton {
     margin-top: 2px;
     background-color: rgba(255, 255, 255, 0.047);
     border : 2px solid rgb(203, 158, 244);
@@ -109,7 +125,7 @@
     display: block;
     margin: auto;
   }
-  .applyButton:hover {
+  .applyWifiButton:hover {
     background-color: purple;
     color: white;
   }
@@ -131,6 +147,12 @@
 
 #file-input:active {
     background-color: #004080;
+}
+
+.configTitle {
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
     </style>
@@ -155,10 +177,9 @@
       <ul id="otpList"></ul>
     </div>
     <div role="tabpanel" hidden>
-
-    <button id="unixButton" class="unixButton">Sync Time</button> <br>
      
-      <h4>Wifi Configuration</h4> 
+      <h4>Wifi Configuration</h4>
+      <hr class="solid"> 
       
         Wifi Mode:
         <select id="wifiModeSelect">
@@ -175,7 +196,34 @@
           </select>
         </div>
 
-        <button id="applyButton" class="applyButton">Apply</button><br>
+        <button id="applyWifiButton" class="applyWifiButton">Apply</button><br>
+
+        <h4 class = "configTitle">Time</h4>
+        <hr class="solid" style="margin-top: 4px;">
+        <p><b>Timezone (GMT) </b> <br> </p> 
+        
+        <input type="number" id="timezone" name="timezone" min="-12" max="14" step="0.5" value="0">
+
+
+        <button id="unixButton" class="unixButton">Sync Time</button> <br>
+
+        <h4 class = "configTitle">Screen</h4>
+        <hr class="solid" style="margin-top: 4px;">
+
+        <p><b>Timeout (s) </b> <br> </p> 
+        <input type="number" id="screenTimeout" name="screenTimeout" min="0" max="9999" step="5" value="0">
+        <p><b>Brightness</b> <br>
+        <input type = "range" id="brightness" name="brightness" min="15" max="255" value="100">
+
+        <button id="setScreenSettings" class="unixButton">Set Screen Settings</button> <br>
+
+        <hr class="solid" style="margin-top: 3rem;">
+
+
+        <button id="factoryReset" class="resetButton">Factory Reset</button> <br>
+
+
+    </div> <!-- end of config panel -->
       
     </section>
 
@@ -192,7 +240,7 @@
     <input type="text" id="label" name="label"><br>
     <label for="user">User:</label><br>
     <input type="text" id="user" name="user"><br>
-    <input type="submit" class='applyButton' value="Add">
+    <input type="submit" class='applyWifiButton' value="Add">
   </form>
   
 
@@ -207,7 +255,7 @@
         Copyright (c) 2020 Imad Mezghache <br>
         </p>
         ------
-        Current version <b>1.0</b>
+        Current version <b>1.1</b>
         ------
         <br>
         <h4>Update Firmware</h4>
@@ -216,7 +264,7 @@
         <form method='POST' action='#' enctype='multipart/form-data' id='upload_form'>
           <input type='file' name='update' id='file' onchange='sub(this)' style='display:none;'>
           <label id='file-input' for='file'>   Choose file...</label>
-          <input type='submit' class='applyButton' value='Update' id = 'update-button' style='display:none;>
+          <input type='submit' class='applyWifiButton' value='Update' id = 'update-button' style='display:none;>
           <br><br>
           <div id='prg'></div>
           <br><div id='prgbar'><div id='bar'></div></div><br>
@@ -236,6 +284,7 @@
 <script>
 
   // Define the base endpoint address
+  // LEAVE BLANK IN PRODUCTION
   const baseUrl = '';
 
   // --- TAB SELECTION LOGIC ---
@@ -303,6 +352,7 @@
     })
     .then(message => {
       alert(message); // Display server response
+      location.reload(); // Refresh the page
     })
     .then(data => {
       console.log(data); // Log server response
@@ -311,6 +361,32 @@
       console.error('There was a problem with the fetch operation:', error);
     });
   });
+
+
+  // --- GMT TIMEZONE LOGIC ---
+  document.getElementById('timezone').addEventListener('change', function() {
+  var timezone = document.getElementById('timezone').value;
+  var payload = {
+    "timezone": timezone
+  };
+
+  fetch(`${baseUrl}/timezone`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => {
+    return response.text();
+  })
+  .then(data => {
+    console.log(data); // Log server response
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+});
 
   // --- UNIX SYNC TIME LOGIC ---
 
@@ -341,6 +417,54 @@
     console.error('There was a problem with the fetch operation:', error);
   });
 });
+
+// --- SCREEN SETTINGS LOGIC ---
+
+document.getElementById('setScreenSettings').addEventListener('click', function() {
+  var screenTimeout = document.getElementById('screenTimeout').value;
+  var brightness = document.getElementById('brightness').value;
+  var payload = {
+    "timeout": screenTimeout,
+    "brightness": brightness
+  };
+
+  fetch(`${baseUrl}/setScreen`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload)
+  })
+  .then(response => {
+    return response.text();
+  })
+  .then(message => {
+    alert(message); // Display server response
+  })
+  .then(data => {
+    console.log(data); // Log server response
+  })
+  .catch(error => {
+    console.error('There was a problem with the fetch operation:', error);
+  });
+});
+
+// fetch initial values from server
+fetch(`${baseUrl}/getScreen`)
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('screenTimeout').value = data.timeout;
+    document.getElementById('brightness').value = data.brightness;
+  })
+  .catch(error => console.error('Error fetching initial values:', error));
+
+// get timezone from server
+fetch(`${baseUrl}/timezone`)
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById('timezone').value = data.timezone;
+  })
+  .catch(error => console.error('Error fetching initial values:', error));
 
 
 // --- BASE32 DECODING LOGIC ---
@@ -403,6 +527,8 @@
     })
     .then(message => {
       alert(message); // Display "removed" message
+      // refresh the page
+      location.reload();
     })
     .catch(error => {
       console.error('Error deleting OTP:', error);
@@ -439,7 +565,7 @@
     }
 
     // Apply button click event
-    document.getElementById('applyButton').addEventListener('click', function() {
+    document.getElementById('applyWifiButton').addEventListener('click', function() {
       const wifiMode = document.getElementById('wifiModeSelect').value;
       const ssid = document.getElementById('ssidInput').value;
       const password = document.getElementById('passwordInput').value;
@@ -472,6 +598,23 @@
     document.getElementById('wifiModeSelect').addEventListener('change', togglePasswordModeVisibility);
   // ! --- end of configuration logic ---
 
+  // factory reset button
+
+  document.getElementById('factoryReset').addEventListener('click', function() {
+    if (confirm('Are you sure you want to reset the device?')) {
+      fetch(`${baseUrl}/factoryReset`, {
+        method: 'POST'
+      })
+      .then(response => response.text())
+      .then(message => {
+        alert(message); // Display server response
+      })
+      .catch(error => {
+        console.error('Error resetting device:', error);
+      });
+    }
+  });
+
   // ! --- FIRMWARE UPDATE LOGIC ---
 
       // Enable or disable the update button based on whether a file is selected
@@ -497,7 +640,7 @@
                 }
             }, false);
 
-            xhr.open('POST', '/update', true);
+            xhr.open('POST', `${baseUrl}/update`, true);
             xhr.send(data);
             xhr.onload = function() {
                 console.log('success!');

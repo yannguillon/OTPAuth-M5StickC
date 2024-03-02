@@ -66,7 +66,7 @@ void Wifi_screen() {
     Serial.println("Starting in STA mode");
     WiFi.mode(WIFI_STA);
     WiFi.begin(Wifi_SSID, password);
-    Serial.println("Try Connecting to " + Wifi_SSID + " with password " + password);
+    Serial.println("Try Connecting to " + Wifi_SSID);
 
     // Wait for the connection to complete
     unsigned long startTime = millis();
@@ -395,22 +395,72 @@ void Wifi_screen() {
 
       deserializeJson(jsondata, server.arg(0));
       time_t unix = jsondata["unix"];
-      setTime(unix);
+      
+      // from unix to rtc_datetime_t
+      tm *tm_struct = localtime(&unix);
 
-      TimeStruct.hours   = hour();
-      TimeStruct.minutes = minute();
-      TimeStruct.seconds = second();
-      DateStruct.month = month();
-      DateStruct.date = day();
-      DateStruct.year = year();
-      M5.Rtc.setDate(&DateStruct);
-      M5.Rtc.setTime(&TimeStruct);
+      M5.Rtc.setDateTime(tm_struct);
+
+
+      // M5.Rtc.setDate(&DateStruct);
+      // M5.Rtc.setTime(&TimeStruct);
 
       server.send(200, "text/html", "OK");
     } else {
       server.send(200, "text/html", "LOCKED");
     }
   });
+
+  // get timezone
+  server.on("/timezone", HTTP_GET, []() {
+    previousMillis = millis();
+    jsondata.clear();
+    // String  pincode = NVS.getString ("pincode");
+    // if (pin_UNLOCK != pincode) {
+    //   server.send(200, "text/html", "LOCKED");
+    //   return;
+    // }
+
+    // return the timezone value from timezone_h and timezone_m
+    float _timezone = timezone_h + (timezone_m / 60.0);
+
+    jsondata["timezone"] = _timezone;
+
+    String dataout = "";
+    serializeJson(jsondata, dataout);
+
+    server.send(200, "text/html", dataout);
+  });
+
+  // set the timezone
+
+  server.on("/timezone", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
+
+  server.on("/timezone", HTTP_POST, []() {
+    previousMillis = millis();
+    jsondata.clear();
+    deserializeJson(jsondata, server.arg(0)); 
+
+    // set timezone_h and timezone_m from the float value
+    float _timezone = jsondata["timezone"];
+
+    if (_timezone < -14 || _timezone > 14) {
+      server.send(200, "text/html", "INVALID");
+      return;
+    }
+
+    timezone_h = static_cast<int>(_timezone);
+    timezone_m = static_cast<int>((_timezone - timezone_h) * 60);
+
+    // save the timezone value to the NVS
+    NVS.setInt("timezone_h", timezone_h);
+    NVS.setInt("timezone_m", timezone_m);
+
+    server.send(200, "text/html", "OK");
+  });
+
 
 
   //----------------getOTPs--------------              get the OXOTP list
@@ -529,10 +579,62 @@ server.on("/setWifi", HTTP_POST, []() {
     server.send(200, "text/html", dataout);
   });
 
+// Set the LCD Brightness and timeout
+  server.on("/setScreen", HTTP_OPTIONS, []() {
+    server.send(200);
+  });
+
+  server.on("/setScreen", HTTP_POST, []() {
+    previousMillis = millis();
+    jsondata.clear();
+    deserializeJson(jsondata, server.arg(0));
+
+    if (jsondata.containsKey("brightness")) {
+      int _brightness = jsondata["brightness"];
+      // clamp the brightness value between 5 and 255
+      _brightness = constrain(_brightness, 5, 255);
+      M5.Lcd.setBrightness(_brightness);
+      lcd_brightness = _brightness;
+
+      // save the brightness value to the NVS
+      NVS.setInt("lcd_brightness", _brightness);
+    }
+
+    if (jsondata.containsKey("timeout")) {
+      int _timeout = jsondata["timeout"];
+      if (_timeout <= 0) {
+        _timeout = -1;
+      }
+      else {
+        _timeout = _timeout * 1000;
+      }
+
+      timeout_ScreenOn = _timeout;
+      NVS.setInt("timeout_ScreenOn", _timeout);
+      Serial.println("timeout_ScreenOn: " + String(timeout_ScreenOn));
+    }
+
+    server.send(200, "text/html", "OK");
+  });
+
+  // Get the current LCD Brightness and timeout in seconds
+  server.on("/getScreen", HTTP_GET, []() {
+    previousMillis = millis();
+    jsondata.clear();
+
+    jsondata["brightness"] = lcd_brightness;
+    int _timeout = timeout_ScreenOn == UINT32_MAX ? 0 : timeout_ScreenOn / 1000;
+    jsondata["timeout"] = timeout_ScreenOn / 1000;
+
+    String dataout = "";
+    serializeJson(jsondata, dataout);
+
+    server.send(200, "text/html", dataout);
+  });
+
 
 
   // ---- OTA UPDATE API ----
-
   // server.on("/update", HTTP_GET, []() {
   //   server.sendHeader("Connection", "close");
   //   server.send(200, "text/html", index_html);

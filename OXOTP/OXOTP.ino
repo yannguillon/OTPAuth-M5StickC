@@ -1,9 +1,9 @@
 /*
     OXOTP+
    ------------------------------------------
-      Copyright (c) 2024 Alex Licata
+       Copyright (c) 2024 Alex Licata
       Copyright (c) 2020 Mezghache imad
-            github.com/xick/OXOTP
+          github.com/xick/OXOTP-plus
   -------------------------------------------
  */
 
@@ -11,11 +11,8 @@
 // Then go to http://192.168.4.1/ to configure
 
 #define maxOTPs 30                         // max OTP can hande OXOTP
-#define timeout_ScreenOn 180000            // The time at which the OXOTP shutdown after inactivity
-#define lcd_brightness 100                   // brightness of the LCD
+//#define timeout_ScreenOn 180000            // The time at which the OXOTP shutdown after inactivity
 
-
-// timeout and brightness could set on app later
 
 String rondom_letters = "AEF2345689";      // This string contains the characters used to generate the wifi password
 
@@ -60,11 +57,26 @@ void setup() {
   auto cfg = M5.config();
   M5.begin(cfg);
 
-  M5.Display.setBrightness(lcd_brightness); // 0 - 255
   NVS.begin();
 
+  // -- Get Preferences from NVS
+  if (NVS.getInt("lcd_brightness") != 0) {
+    lcd_brightness = NVS.getInt("lcd_brightness");
+  }
+  M5.Display.setBrightness(lcd_brightness); // 0 - 255
+
+  // get timeout from NVS
+  if (NVS.getInt("timeout_ScreenOn") != 0) {
+    timeout_ScreenOn = NVS.getInt("timeout_ScreenOn");
+  }
+
+  // get timezone from NVS
+  timezone_h = NVS.getInt("timezone_h");
+  timezone_m = NVS.getInt("timezone_m");
+
+
   Serial.println("===============ESP32-OXOTP+==============");
-  Serial.println("================= V 1.0 ================");
+  Serial.println("================= V 1.1 ================");
   Serial.println("===============ESP32-OXOTP+==============");
 
   M5.Rtc.getTime(&TimeStruct);
@@ -83,7 +95,9 @@ void setup() {
   M5.Lcd.fillScreen(BLACK);
   M5.Lcd.setTextSize(1);
 
+  // not sure if this is needed
   setTime(TimeStruct.hours, TimeStruct.minutes, TimeStruct.seconds, DateStruct.date, DateStruct.month, DateStruct.year);
+
 }
 
 void loop() {

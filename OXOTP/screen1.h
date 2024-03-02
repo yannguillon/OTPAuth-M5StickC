@@ -65,7 +65,6 @@ void OTP_screen() {
       if (M5.BtnA.wasPressed() | firstloadScreen) {
         bool search = true;
         previousMillis = millis();
-
         
         while (search) {                                         // Search in memory for valid OTP data
           (pointer == maxOTPs) ? pointer = 1 : pointer++;
