@@ -75,7 +75,7 @@ void  Time_screen() {
     if (sec != second() | firstloadScreen) {
       firstloadScreen = false;
       // clear the screen, except the toolbar area
-      M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, TFT_BLACK);
+      M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, bg_color);
       sec = second();
 
       localTime = M5.Rtc.getDateTime();
@@ -84,28 +84,29 @@ void  Time_screen() {
       String timedatenow = getString_2digit(localTime.time.hours) + ":" + getString_2digit(localTime.time.minutes) + ":" + getString_2digit(localTime.time.seconds);
       
       if (current_screen == STICKC) {
-        M5.Lcd.setFreeFont(&beta15pt7b); // todo add 21pt font
+        M5.Lcd.setFreeFont(&beta15pt7b);
         M5.Lcd.setCursor(1, 30);
       } else {
-        M5.Lcd.setFreeFont(&beta15pt7b);
-        M5.Lcd.setCursor(15, 35);
+        M5.Lcd.setFreeFont(&mishmash21pt7b);
+        M5.Lcd.setCursor(13, 32);
       }
-      M5.Lcd.setTextColor(WHITE, BLACK);
+      M5.Lcd.setTextColor(txt_color, bg_color);
       M5.Lcd.print(timedatenow);
 
       
       timedatenow = getString_2digit(localTime.date.date) + "/" + getString_2digit(localTime.date.month) + "/" + String(localTime.date.year);
       if (current_screen == STICKC) {
         M5.Lcd.setFreeFont(&beta10pt7b);
-        M5.Lcd.setCursor(1, 64);
+        M5.Lcd.setCursor(1, 66);
         M5.Lcd.print(timedatenow);
       } else {
-        M5.Lcd.setFreeFont(&beta10pt7b); // todo set 15pt font
         // print also weekday on bigger screen
-        M5.Lcd.setCursor(15, 77);
+        M5.Lcd.setFreeFont(&beta10pt7b); 
+        M5.Lcd.setCursor(13, 78);
         M5.Lcd.print(getWeekDay(localTime.date.weekDay));
 
-        M5.Lcd.setCursor(15, 97);
+        M5.Lcd.setFreeFont(&beta15pt7b); // todo set 15pt font
+        M5.Lcd.setCursor(13, 98);
         M5.Lcd.print(timedatenow);
       }
       

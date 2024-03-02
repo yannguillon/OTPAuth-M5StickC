@@ -52,7 +52,7 @@ void Wifi_screen() {
 
 
   // clear the screen, except the toolbar area
-  M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, TFT_BLACK);
+  M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, bg_color);
   show_wait_icon();
   
 
@@ -168,7 +168,6 @@ void Wifi_screen() {
 
     // Route for serving the zipped HTML page
   server.on("/", HTTP_GET, []() {
-    // Send the zipped HTML page as a response
     previousMillis = millis();
     server.sendHeader("Content-Encoding", "gzip");
     server.send_P(200, "text/html", index_html_gz, sizeof(index_html_gz));
@@ -191,7 +190,7 @@ void Wifi_screen() {
 
   //----------------add-------------------
 
-  // preflicht OPTIONS request for the /add endpoint
+  // preflight OPTIONS request for the /add endpoint
   server.on("/add", HTTP_OPTIONS, []() {
     server.send(200);
   });
@@ -339,7 +338,6 @@ void Wifi_screen() {
   });
 
 
-
   //----------------set_pin--------------------           set pin to OXOTP
   server.on("/set_pin", HTTP_OPTIONS, []() {
     server.send(200);
@@ -395,15 +393,12 @@ void Wifi_screen() {
 
       deserializeJson(jsondata, server.arg(0));
       time_t unix = jsondata["unix"];
+      setTime(unix);
       
       // from unix to rtc_datetime_t
-      tm *tm_struct = localtime(&unix);
+      tm *tm_struct = gmtime(&unix);
 
       M5.Rtc.setDateTime(tm_struct);
-
-
-      // M5.Rtc.setDate(&DateStruct);
-      // M5.Rtc.setTime(&TimeStruct);
 
       server.send(200, "text/html", "OK");
     } else {
@@ -460,7 +455,6 @@ void Wifi_screen() {
 
     server.send(200, "text/html", "OK");
   });
-
 
 
   //----------------getOTPs--------------              get the OXOTP list
@@ -591,8 +585,8 @@ server.on("/setWifi", HTTP_POST, []() {
 
     if (jsondata.containsKey("brightness")) {
       int _brightness = jsondata["brightness"];
-      // clamp the brightness value between 5 and 255
-      _brightness = constrain(_brightness, 5, 255);
+      // clamp the brightness value between 10 and 255
+      _brightness = constrain(_brightness, 10, 255);
       M5.Lcd.setBrightness(_brightness);
       lcd_brightness = _brightness;
 
@@ -612,6 +606,18 @@ server.on("/setWifi", HTTP_POST, []() {
       timeout_ScreenOn = _timeout;
       NVS.setInt("timeout_ScreenOn", _timeout);
       Serial.println("timeout_ScreenOn: " + String(timeout_ScreenOn));
+
+      if (jsondata.containsKey("bg_color")) {
+      bg_color = jsondata["bg_color"];
+      NVS.setInt("bg_color", bg_color);
+      }
+
+    if (jsondata.containsKey("txt_color")) {
+      txt_color = jsondata["txt_color"];
+      NVS.setInt("txt_color", txt_color);
+    }
+    M5.Lcd.fillScreen(bg_color);
+    M5.Lcd.setTextColor(txt_color, bg_color);
     }
 
     server.send(200, "text/html", "OK");
@@ -626,6 +632,9 @@ server.on("/setWifi", HTTP_POST, []() {
     int _timeout = timeout_ScreenOn == UINT32_MAX ? 0 : timeout_ScreenOn / 1000;
     jsondata["timeout"] = timeout_ScreenOn / 1000;
 
+    jsondata["bg_color"] = bg_color;
+    jsondata["txt_color"] = txt_color;
+
     String dataout = "";
     serializeJson(jsondata, dataout);
 
@@ -633,12 +642,7 @@ server.on("/setWifi", HTTP_POST, []() {
   });
 
 
-
-  // ---- OTA UPDATE API ----
-  // server.on("/update", HTTP_GET, []() {
-  //   server.sendHeader("Connection", "close");
-  //   server.send(200, "text/html", index_html);
-  // });
+  // -- OTA UPDATE API --
   
   server.on("/update", HTTP_OPTIONS, []() {
     server.send(200);

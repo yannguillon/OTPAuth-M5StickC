@@ -1,13 +1,16 @@
 // Run-Time Variables //
 StaticJsonDocument<2000> jsondata;
 
-m5::rtc_time_t TimeStruct;
-m5::rtc_date_t DateStruct;
+// m5::rtc_time_t TimeStruct;
+// m5::rtc_date_t DateStruct;
 
 m5::rtc_datetime_t localTime;
 
-int screen_x;
-int screen_y;
+uint16_t screen_x;
+uint16_t screen_y;
+
+uint16_t bg_color = TFT_BLACK;
+uint16_t txt_color = TFT_WHITE;
 
 enum screen {
   STICKC,

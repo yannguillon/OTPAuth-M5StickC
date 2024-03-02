@@ -37,6 +37,7 @@ WebServer server(80);
 #include"beta10pt7b.h"
 #include"beta8pt7b.h"
 #include"beta5pt7b.h"
+#include"Mishmash21pt7b.h"
 
 #include"variable_runtime.h"
 #include"index.h"
@@ -59,6 +60,10 @@ void setup() {
 
   NVS.begin();
 
+  Serial.println("===============ESP32-OXOTP+==============");
+  Serial.println("================= V 1.1 ================");
+  Serial.println("===============ESP32-OXOTP+==============");
+
   // -- Get Preferences from NVS
   if (NVS.getInt("lcd_brightness") != 0) {
     lcd_brightness = NVS.getInt("lcd_brightness");
@@ -74,15 +79,15 @@ void setup() {
   timezone_h = NVS.getInt("timezone_h");
   timezone_m = NVS.getInt("timezone_m");
 
+  // get bg and txt color from NVS
+  if (NVS.getInt("bg_color") != 0) {
+    bg_color = NVS.getInt("bg_color");
+  }
+  if (NVS.getInt("txt_color") != 0) {
+    txt_color = NVS.getInt("txt_color");
+  }
 
-  Serial.println("===============ESP32-OXOTP+==============");
-  Serial.println("================= V 1.1 ================");
-  Serial.println("===============ESP32-OXOTP+==============");
-
-  M5.Rtc.getTime(&TimeStruct);
-  M5.Rtc.getDate(&DateStruct);
-
-  M5.Lcd.setRotation(3);
+  M5.Lcd.setRotation(1);
   screen_x = M5.Lcd.width();
   screen_y = M5.Lcd.height();
 
@@ -92,11 +97,14 @@ void setup() {
     current_screen = STICKCPLUS;
   }
 
-  M5.Lcd.fillScreen(BLACK);
+  M5.Lcd.fillScreen(bg_color);
   M5.Lcd.setTextSize(1);
+  M5.Lcd.setTextColor(txt_color, bg_color);
 
-  // not sure if this is needed
-  setTime(TimeStruct.hours, TimeStruct.minutes, TimeStruct.seconds, DateStruct.date, DateStruct.month, DateStruct.year);
+  // get tm from RTC
+  tm rtc_tm = M5.Rtc.getDateTime().get_tm();
+  setTime(rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec, rtc_tm.tm_mday, rtc_tm.tm_mon + 1, rtc_tm.tm_year + 1900);
+  
 
 }
 
