@@ -61,7 +61,7 @@ void setup() {
   NVS.begin();
 
   Serial.println("===============ESP32-OXOTP+==============");
-  Serial.println("================= V 1.1 ================");
+  Serial.println("================= V 1.2 ================");
   Serial.println("===============ESP32-OXOTP+==============");
 
   // -- Get Preferences from NVS

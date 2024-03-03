@@ -81,15 +81,7 @@ void Wifi_screen() {
     // print the ip address in the serial monitor and in the screen
     Serial.println("Connected to " + Wifi_SSID + " with IP: " + WiFi.localIP().toString());
 
-    // use mdns to resolve the hostname
-    if (MDNS.begin("oxotp")) { //http://esp32.local
-      Serial.println("mDNS responder started");
-      _mdnsStarted = true;
-    }
-    else {
-       Serial.println("Error setting up MDNS responder!");
-      _mdnsStarted = false;
-    }
+
 
   }
   
@@ -99,10 +91,20 @@ void Wifi_screen() {
     Serial.println("Failed to connect to the specified network. Falling back to AP mode.");
     Wifi_SSID = ssid_mac;
     Wifi_Mode = "AP";
-
+    Wifi_PASSWORD = pass_gen; // generate a new password for fallback AP mode
     WiFi.mode(WIFI_AP);
-    WiFi.softAP(AP_ssid, password);
+    WiFi.softAP(AP_ssid, pass_gen);
     Serial.println("AP mode started, ssid: " + String(AP_ssid) + ", password: " + password);
+  }
+
+    // use mdns to resolve the hostname
+  if (MDNS.begin("oxotp")) { //http://esp32.local
+    Serial.println("mDNS responder started");
+    _mdnsStarted = true;
+  }
+  else {
+      Serial.println("Error setting up MDNS responder!");
+    _mdnsStarted = false;
   }
 
 
