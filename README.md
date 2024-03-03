@@ -1,14 +1,13 @@
 # OXOTP+
 
-<p align="center"><img alt="PICTURE logo" src="img/6.png" width="450"></p>
+<p align="center"><img alt="PICTURE logo" src="img/oxotp-ss2.png" width="450"></p>
 
 <b>FIRST OTP BASED ON M5StickCPlus / 2 for 2FA <br><br>
 -------
-<h3><b>⚠️This program is under active development</b> </h3>
 
 Reimplementation of the original **OXOTP** work of @IMSHOX, with added compatibility for *M5StickCPlus* and *M5StickCPlus 2*, and a new web application.
 
--<p align="center"><img alt="otps section" src="img/screenshot_otps.png" width="350"></p>
+<p align="center"><img alt="otps section" src="img/screenshot_otps.png" width="350"></p>
 
 
 ## HOW TO USE
@@ -30,7 +29,7 @@ You can extract the secret keys from another authenticator app you already use, 
 	 - M5Unified library
 	 - ArduinoHTTPClient
 	 - ArduinoMDNS
-         - Arduino_ESP32_OTA
+  	- Arduino_ESP32_OTA
 	 - https://github.com/lucadentella/TOTP-Arduino
 	 - https://github.com/bblanchon/ArduinoJson
 	 - https://github.com/rpolitex/ArduinoNvs
@@ -40,16 +39,18 @@ You can extract the secret keys from another authenticator app you already use, 
 ## DEVELOPED FOR DAILY USE
 OXOTP+ is intended to be used as an alternative or backup for your currently 2FA authentication app. Using a dedicated device is great because your phone can be easily lost, stolen, hacked , etc. 
 Always keep a backup (even on paper) of your secrets if you intend to use this as your main 2FA system.
+<br>
+<p align="center"><img alt="PICTURE logo" src="img/oxotp-ss1.png" width="450"></p>
+<br>
 
 ### MILESTONES
  - ~~Add a battery indicator~~ DONE
  - ~~OTA updates~~  
- - Embed a **QRCode** reader in the webapp
- - Beautify the UI, add an alternative Light UI.
+ - ~~Beautify the UI, add an alternative Light UI~~ 
+ - ~~Make poweroff timer and screen brightness tweakable~~ 
+ - Add API for Exporting secrets 
  - Add **Pincode** for the webapp
- - Make poweroff timer and screen brightness tweakable.
- - Export Secrets API
-
+ - Embed a **QRCode** reader in the webapp
 
 ### COMPATIBILITY
 - M5StickCPLus 2
@@ -57,6 +58,11 @@ Always keep a backup (even on paper) of your secrets if you intend to use this a
 - M5Stick (not tested yet)
 
 ## License 
-
 This software is licensed under the MIT License, to read the full license <a href="LICENSE" target="_blank">HERE</a>.
+
+## Credits
+- Based on https://github.com/IMSHOX
+- Pico CSS, a splendid and lightweight css framework (https://github.com/picocss/pico)
+- truetype2gfx - https://rop.nl/truetype2gfx/
+- and the creators of all the libraries used.
 
