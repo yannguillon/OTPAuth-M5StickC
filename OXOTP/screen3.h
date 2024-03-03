@@ -181,12 +181,11 @@ void Wifi_screen() {
     server.send_P(200, "text/css", css_gz, sizeof(css_gz));
   });
 
-  // TODO
-  //   // Route to load the favicon.ico file
-  // server.on("/favicon.ico", HTTP_GET, []() {
-  //   server.sendHeader("Content-Encoding", "gzip");
-  //   server.send_P(200, "image/x-icon", favico_gz, sizeof(favico_gz));
-  // });
+    // Route to load the favicon.ico file
+  server.on("/favicon.png", HTTP_GET, []() {
+    server.sendHeader("Content-Encoding", "gzip");
+    server.send_P(200, "image/png", favico_gz, sizeof(favico_gz));
+  });
 
   server.handleClient();
 
