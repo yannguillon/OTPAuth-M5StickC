@@ -1,3 +1,12 @@
+scratches
+*.otpauthdb
+webserver/lib/javascript/dist
+webserver/public/tailwind.min.css
+OTPAuth-M5StickC/webserver/dist
+tmp
+node_modules
+.idea
+
 # Prerequisites
 *.d
 
