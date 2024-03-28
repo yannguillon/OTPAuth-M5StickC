@@ -2,7 +2,8 @@ scratches
 *.otpauthdb
 webserver/lib/javascript/dist
 webserver/public/tailwind.min.css
-OTPAuth-M5StickC/webserver/dist
+webserver/public/index.js
+OTPAuth-M5StickC/webserver/dist/gzip/
 tmp
 node_modules
 .idea
