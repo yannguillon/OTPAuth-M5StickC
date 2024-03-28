@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OTPAuth-M5StickC</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" type="image/png" href="/favicon.png">
+  <link rel="shortcut icon" sizes="192x192" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
+  <link rel="stylesheet" href="tailwind.min.css" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
+</head>
+<body class="dark:bg-gray-900 antialiased pb-28">
+
+<div class="container mx-auto max-w-xs border-gray-200 ">
+  <nav class="border-gray-200 py-5">
+    <ul class="font-medium flex mt-4 flex-row md:space-x-8 justify-center">
+      <li>
+        <a role="tab" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Codes</a>
+      </li>
+      <li>
+        <a role="tab" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Sync</a>
+      </li>
+      <li>
+        <a role="tab" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Config</a>
+      </li>
+      <li>
+        <a role="tab" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Firmware</a>
+      </li>
+    </ul>
+  </nav>
+  <div role="tabpanel">
+    <div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div class="flex items-center justify-between mb-4">
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Synchronized codes</h5>
+      </div>
+      <div class="flow-root">
+        <ul id="otpList"></ul>
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+          <li class="py-3">
+            <div class="flex items-center">
+              <div class="flex-1 min-w-0 ">
+                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                  Neil Sims
+                </p>
+                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                  email@windster.com
+                </p>
+              </div>
+            </div>
+          </li>
+          <li class="py-3">
+            <div class="flex items-center">
+              <div class="flex-1 min-w-0 ">
+                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                  Neil Sims
+                </p>
+                <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                  email@windster.com
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="mt-10 w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <div class="text-white ">
+        <div class="flex items-center justify-between mb-5">
+          <h5 class="text-xl font-medium text-gray-900 dark:text-white">OTPAuth-M5StickC</h5>
+        </div>
+        <div class="divide-y  divide-gray-700">
+          <div class="py-4">
+            <div>
+              <svg class="inline-block w-4 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 367.467 367.467" xml:space="preserve"><g><path d="M183.73,0.018C82.427,0.018,0,82.404,0,183.733c0,101.289,82.427,183.716,183.73,183.716c101.315,0,183.737-82.427,183.737-183.716C367.467,82.404,285.045,0.018,183.73,0.018z M183.73,326.518c-78.743,0-142.798-64.052-142.798-142.784c0-78.766,64.055-142.817,142.798-142.817c78.752,0,142.807,64.052,142.807,142.817C326.536,262.466,262.481,326.518,183.73,326.518z"/><path d="M244.036,217.014c-11.737,20.141-33.562,32.635-56.956,32.635c-36.329,0-65.921-29.585-65.921-65.915c0-36.36,29.592-65.955,65.921-65.955c23.395,0,45.219,12.54,56.956,32.641l1.517,2.627h44.28l-2.658-7.129c-7.705-20.413-21.225-37.769-39.122-50.157c-17.942-12.42-39.017-19.009-60.973-19.009c-58.981,0-106.946,48.006-106.946,106.982c0,58.98,47.965,106.941,106.946,106.941c21.956,0,43.03-6.567,60.973-19.006c17.897-12.391,31.417-29.741,39.122-50.154l2.658-7.133h-44.28L244.036,217.014z"/></g></svg>
+              2024 <a target="_blank" class="font-bold" href="https://github.com/yannguillon">Yann Guillon</a>
+            </div>
+            <div>
+              <svg class="inline-block w-4 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 367.467 367.467" xml:space="preserve"><g><path d="M183.73,0.018C82.427,0.018,0,82.404,0,183.733c0,101.289,82.427,183.716,183.73,183.716c101.315,0,183.737-82.427,183.737-183.716C367.467,82.404,285.045,0.018,183.73,0.018z M183.73,326.518c-78.743,0-142.798-64.052-142.798-142.784c0-78.766,64.055-142.817,142.798-142.817c78.752,0,142.807,64.052,142.807,142.817C326.536,262.466,262.481,326.518,183.73,326.518z"/><path d="M244.036,217.014c-11.737,20.141-33.562,32.635-56.956,32.635c-36.329,0-65.921-29.585-65.921-65.915c0-36.36,29.592-65.955,65.921-65.955c23.395,0,45.219,12.54,56.956,32.641l1.517,2.627h44.28l-2.658-7.129c-7.705-20.413-21.225-37.769-39.122-50.157c-17.942-12.42-39.017-19.009-60.973-19.009c-58.981,0-106.946,48.006-106.946,106.982c0,58.98,47.965,106.941,106.946,106.941c21.956,0,43.03-6.567,60.973-19.006c17.897-12.391,31.417-29.741,39.122-50.154l2.658-7.133h-44.28L244.036,217.014z"/></g></svg>
+              2024 <a target="_blank" class="font-bold" href="https://github.com/xick/OXOTP-plus">Alex Licata</a>
+            </div>
+            <div>
+              <svg class="inline-block w-4 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 367.467 367.467" xml:space="preserve"><g><path d="M183.73,0.018C82.427,0.018,0,82.404,0,183.733c0,101.289,82.427,183.716,183.73,183.716c101.315,0,183.737-82.427,183.737-183.716C367.467,82.404,285.045,0.018,183.73,0.018z M183.73,326.518c-78.743,0-142.798-64.052-142.798-142.784c0-78.766,64.055-142.817,142.798-142.817c78.752,0,142.807,64.052,142.807,142.817C326.536,262.466,262.481,326.518,183.73,326.518z"/><path d="M244.036,217.014c-11.737,20.141-33.562,32.635-56.956,32.635c-36.329,0-65.921-29.585-65.921-65.915c0-36.36,29.592-65.955,65.921-65.955c23.395,0,45.219,12.54,56.956,32.641l1.517,2.627h44.28l-2.658-7.129c-7.705-20.413-21.225-37.769-39.122-50.157c-17.942-12.42-39.017-19.009-60.973-19.009c-58.981,0-106.946,48.006-106.946,106.982c0,58.98,47.965,106.941,106.946,106.941c21.956,0,43.03-6.567,60.973-19.006c17.897-12.391,31.417-29.741,39.122-50.154l2.658-7.133h-44.28L244.036,217.014z"/></g></svg>
+              2020 <a target="_blank" class="font-bold" href="https://github.com/IMSHOX/OXOTP">Imad Mezghache</a>
+            </div>
+          </div>
+          <div class="py-4">
+            <h4><i>Thanks: </i><a target="_blank" class="font-bold" href="https://github.com/Hinaser/jscrypto">@Hinaser</a>, contributors of <a target="_blank" class="font-bold" href="https://github.com/Hinaser/jscrypto">Browserify</a></h4>
+          </div>
+          <div class="py-4">
+            <h4><i>Not Thanks: </i><span class="font-bold">W3C</span> <div><a class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline" target="_blank" href="https://github.com/w3c/webcrypto/issues/28#issuecomment-1174004465">for deliberately blocking browsers crypto APIs to makers</a></div></h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div role="tabpanel" hidden>
+    <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+      <form class="space-y-6" action="#">
+        <h5 class="text-xl font-medium text-gray-900 dark:text-white">Synchronize your backup</h5>
+        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="archive">Your backup file <span class="text-gray-400">( .otpauthdb )</span></label>
+        <input id="archive" class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400" type="file">
+        <div>
+          <label for="password" class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">Your backup password</label>
+          <input type="password" name="password" id="password" placeholder="•••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+        </div>
+        <div>
+          <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white" for="sync">I understand that :</span></label>
+          <ul class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white">
+            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <div class="flex items-center px-3">
+                <input id="angular-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                <label for="angular-checkbox" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Unencrypted keys will be sent to the device over HTTP</label>
+              </div>
+            </li>
+            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <div class="flex items-center px-3">
+                <input id="react-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                <label for="react-checkbox" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Private keys will be decrypted in this browser</label>
+              </div>
+            </li>
+
+            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+              <div class="flex items-center px-3">
+                <input id="laravel-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                <label for="laravel-checkbox" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Key data will be stored unencrypted in device memory</label>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <input id="submit" type="submit" value="Sync!" class="mt-5 text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
+      </form>
+    </div>
+    <article>
+    </article>
+  </div>
+  <div role="tabpanel" hidden>
+    <details>
+      <summary>Wifi</summary>
+      <article>
+        <form>
+          <label>Wifi Mode:</label>
+          <select id="wifiModeSelect">
+            <option value="AP">AP</option>
+            <option value="STA">Host</option>
+          </select>
+          <label>SSID:</label>
+          <input type="text" id="ssidInput"  />
+          <label>Password</label>
+          <input type="password" id="passwordInput">
+          <label>Password Mode</label>
+          <select id="passwordModeSelect">
+            <option value="0">Random</option>
+            <option value="1">Fixed</option>
+          </select>
+          <button id="applyWifiButton" class="applyWifiButton">Apply</button><br>
+        </form>
+      </article>
+    </details>
+    <details>
+      <summary>Time</summary>
+      <article>
+
+        <p><b>Timezone (GMT) </b> <br> </p>
+
+        <input type="number" id="timezone" name="timezone" min="-12" max="14" step="0.5" value="0">
+
+        <button id="unixButton" class="unixButton">Sync Time</button> <br>
+      </article>
+    </details>
+    <details>
+      <summary>Screen</summary>
+      <article>
+        <p><b>Screen Timeout (s) </b>  </p>
+        <input type="number" id="screenTimeout" name="screenTimeout" min="0" max="9999" step="5" value="0">
+        <p><b>Brightness</b>
+          <input type = "range" id="brightness" name="brightness" min="15" max="255" value="100">
+          <br>
+        <p><b>Background Color</b></p>
+        <input type="color" id="bg_color" name="color" value="#000000">
+        <p><b>Text Color</b></p>
+        <input type="color" id="txt_color" name="color" value="#ffffff">
+        <button id="setScreenSettings" class="unixButton">Set Screen Settings</button>
+      </article>
+    </details>
+    <article>
+      <button id="factoryReset" class="resetButton">Factory Reset</button>
+    </article>
+
+  </div>
+  <div role="tabpanel" hidden>
+    <form class="space-y-6" action="#" method='POST' action='#' enctype='multipart/form-data' id='upload_form'>
+      <h5 class="text-xl font-medium text-gray-900 dark:text-white">Current version: <b>1.2</b></h5>
+      <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file">Your firmware file <span class="text-gray-400">( .bin )</span></label>
+      <input id="file" onchange='sub(this)' class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400" type="file">
+      <input id="update-fimrware" type="submit" value="Update firmware" class="mt-5 text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
+      <div id="prg"></div> <!-- Info panel -->
+      <div id='prgbar'>
+        <div id='bar'></div>
+      </div>
+    </form>
+  </div>
+</div>
+</body>
+<footer class="fixed bottom-0 left-0 z-20 w-full p-4 bg-white border-t border-gray-200 shadow flex place-content-end md:p-6 dark:bg-gray-800 dark:border-gray-600">
+  <button id="theme-toggle" type="button" class=" border-2 border-gray-200 text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5">
+    <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path></svg>
+    <svg id="theme-toggle-light-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
+  </button>
+  <div class="pl-2">
+    <div id="dev-mode-toggle" type="button"  class=" p-1 pr-2 inline-flex items-center justify-between w-full text-gray-500 bg-white border-2 rounded-lg cursor-pointer dark:hover:text-gray-300 hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 border-blue-600">
+      <svg id="dev-mode-icon" class="w-8 h-8 fill-blue-600 fill-gray-400" xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+        <path  d="M78.5,53.6H75V46.4h3.5a3.6,3.6,0,1,0,0-7.1H75V32.2A7.2,7.2,0,0,0,67.8,25H60.7V21.5a3.6,3.6,0,1,0-7.1,0V25H46.4V21.5a3.6,3.6,0,1,0-7.1,0V25H32.2A7.2,7.2,0,0,0,25,32.2v7.1H21.5a3.6,3.6,0,1,0,0,7.1H25v7.2H21.5a3.6,3.6,0,1,0,0,7.1H25v7.1A7.2,7.2,0,0,0,32.2,75h7.1v3.5a3.6,3.6,0,1,0,7.1,0V75h7.2v3.5a3.6,3.6,0,1,0,7.1,0V75h7.1A7.2,7.2,0,0,0,75,67.8V60.7h3.5a3.6,3.6,0,1,0,0-7.1ZM67.8,67.8H32.2V32.2H67.8Z"  fill-rule="evenodd"/>
+      </svg>
+      <span class="font-bold">Dev mode</span>
+    </div>
+  </div>
+</footer>
+<script src="index.js"></script>
+</html>
