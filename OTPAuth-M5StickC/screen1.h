@@ -26,7 +26,7 @@ void OTP_screen() {
         M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, bg_color);
 
         if (current_screen == STICKC) {
-          M5.Lcd.setCursor(10, 32); 
+          M5.Lcd.setCursor(10, 32);
         } else {
           M5.Lcd.setCursor(10, 32);
         }
@@ -48,14 +48,14 @@ void OTP_screen() {
         }
 
         M5.Lcd.setFreeFont(&beta8pt7b);
-        M5.Lcd.print("OXOTP+");
+        M5.Lcd.print("OTPAuth-M5StickC");
 
         // if (current_screen == STICKC) {
         //    M5.Lcd.drawXBitmap(90, 17, logoapp_bits, logoapp_width, logoapp_height, BLACK, WHITE);
         // } else {
         //    M5.Lcd.drawXBitmap(90, 17, logoapp_bits, logoapp_width, logoapp_height, BLACK, WHITE);
         // }
-       
+
 
         firstloadScreen = false;
       }
@@ -64,7 +64,7 @@ void OTP_screen() {
       if (M5.BtnA.wasPressed() | firstloadScreen) {
         bool search = true;
         previousMillis = millis();
-        
+
         while (search) {                                         // Search in memory for valid OTP data
           (pointer == maxOTPs) ? pointer = 1 : pointer++;
           String otpBool = "B" + String(pointer);
@@ -95,7 +95,7 @@ void OTP_screen() {
           M5.Lcd.setCursor(10, 31);
           M5.Lcd.setFreeFont(&beta8pt7b);
         }
-        
+
         String otpLabel = "L" + String(pointer);
         int charsNumber = 25;
         if (current_screen == STICKC) {
@@ -121,7 +121,7 @@ void OTP_screen() {
           M5.Lcd.setFreeFont(&mishmash21pt7b);
         }
 
-        
+
         M5.Lcd.print(newCode);
       }
 

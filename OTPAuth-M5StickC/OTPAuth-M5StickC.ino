@@ -7,11 +7,11 @@
   -------------------------------------------
  */
 
-// Go to WIFI settings and connect to the specified Access point. 
+// Go to WIFI settings and connect to the specified Access point.
 // Then go to http://192.168.4.1/ to configure
 
-#define maxOTPs 30                         // max OTP can hande OXOTP
-//#define timeout_ScreenOn 180000            // The time at which the OXOTP shutdown after inactivity
+#define maxOTPs 30
+//#define timeout_ScreenOn 180000 // Shutdown time
 
 
 String rondom_letters = "AEF2345689";      // This string contains the characters used to generate the wifi password
@@ -40,9 +40,11 @@ WebServer server(80);
 #include"Mishmash21pt7b.h"
 
 #include"variable_runtime.h"
-#include"index.h"
-#include"css.h"
-#include"favico.h"
+
+#include"webserver/dist/gzip/index.html.h"
+#include"webserver/dist/gzip/tailwind.min.css.h"
+#include"webserver/dist/gzip/favicon.png.h"
+#include"webserver/dist/gzip/index.js.h"
 
 #include"screen.h"
 #include"screen1.h"
@@ -60,9 +62,9 @@ void setup() {
 
   NVS.begin();
 
-  Serial.println("===============ESP32-OXOTP+==============");
+  Serial.println("===============ESP32-OTPAuth-M5StickC==============");
   Serial.println("================= V 1.2 ================");
-  Serial.println("===============ESP32-OXOTP+==============");
+  Serial.println("===============ESP32-OTPAuth-M5StickC+==============");
 
   // -- Get Preferences from NVS
   if (NVS.getInt("lcd_brightness") != 0) {
@@ -104,7 +106,7 @@ void setup() {
   // get tm from RTC
   tm rtc_tm = M5.Rtc.getDateTime().get_tm();
   setTime(rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec, rtc_tm.tm_mday, rtc_tm.tm_mon + 1, rtc_tm.tm_year + 1900);
-  
+
 
 }
 
@@ -124,5 +126,5 @@ void loop() {
   }
 
   switchscreen();
-  
+
 }
