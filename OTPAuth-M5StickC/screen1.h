@@ -38,7 +38,7 @@ void OTP_screen() {
         } else {
           M5.Lcd.setCursor(10, 43);
         }
-        M5.Lcd.setFreeFont(&beta5pt7b);
+        M5.Lcd.setFreeFont(&intermedium6pt7b);
         M5.Lcd.print("GO TO WIFI SETUP");
 
         if (current_screen == STICKC) {
@@ -48,7 +48,7 @@ void OTP_screen() {
         }
 
         M5.Lcd.setFreeFont(&beta8pt7b);
-        M5.Lcd.print("OTPAuth-M5StickC");
+        M5.Lcd.print("OTPAUTH");
 
         // if (current_screen == STICKC) {
         //    M5.Lcd.drawXBitmap(90, 17, logoapp_bits, logoapp_width, logoapp_height, BLACK, WHITE);
@@ -93,7 +93,7 @@ void OTP_screen() {
           M5.Lcd.setFreeFont(&beta5pt7b);
         } else {
           M5.Lcd.setCursor(10, 31);
-          M5.Lcd.setFreeFont(&beta8pt7b);
+          M5.Lcd.setFreeFont(&inter12pt7b); // #1
         }
 
         String otpLabel = "L" + String(pointer);
@@ -106,8 +106,8 @@ void OTP_screen() {
         if (current_screen == STICKC) { // set text for user
           M5.Lcd.setCursor(10, 42);
         } else {
-          M5.Lcd.setFreeFont(&beta5pt7b);
-          M5.Lcd.setCursor(10, 47);
+          M5.Lcd.setFreeFont(&inter8pt7b); // #2
+          M5.Lcd.setCursor(10, 56);
         }
 
         String otpUser = "U" + String(pointer);
@@ -117,7 +117,7 @@ void OTP_screen() {
           M5.Lcd.setCursor(10, 64);
           M5.Lcd.setFreeFont(&beta15pt7b);
         } else {
-          M5.Lcd.setCursor(10, 77);
+          M5.Lcd.setCursor(10, 85);
           M5.Lcd.setFreeFont(&mishmash21pt7b);
         }
 

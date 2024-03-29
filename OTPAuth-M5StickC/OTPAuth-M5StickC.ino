@@ -10,7 +10,7 @@
 // Go to WIFI settings and connect to the specified Access point.
 // Then go to http://192.168.4.1/ to configure
 
-#define maxOTPs 30
+#define maxOTPs 50
 //#define timeout_ScreenOn 180000 // Shutdown time
 
 
@@ -38,6 +38,9 @@ WebServer server(80);
 #include"beta8pt7b.h"
 #include"beta5pt7b.h"
 #include"Mishmash21pt7b.h"
+#include"Inter8pt7b.h"
+#include"Intermedium6pt7b.h"
+#include"Inter12pt7b.h"
 
 #include"variable_runtime.h"
 
@@ -118,9 +121,6 @@ void loop() {
       OTP_screen();
       break;
     case 1:
-      Time_screen();
-      break;
-    case 2:
       Wifi_screen();
       break;
   }
