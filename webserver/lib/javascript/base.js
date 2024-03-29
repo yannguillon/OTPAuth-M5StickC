@@ -2,26 +2,6 @@
 // LEAVE BLANK IN PRODUCTION
 const baseUrl = ''
 
-// --- TAB SELECTION LOGIC ---
-const _ = el => [...document.querySelectorAll(el)]
-_('[role=tab]')[0].setAttribute('aria-current', true)
-
-_('[role=tab]').forEach(tab => {
-  tab.addEventListener('click', (e) => {
-    e.preventDefault()
-
-    if (!e.target.hasAttribute('aria-current')) { e.target.setAttribute('aria-current', true) }
-
-    _('[role=tab]').forEach(t => {
-      if (t.hasAttribute('aria-current') && t !== e.target) { t.removeAttribute('aria-current') }
-    })
-
-    _('[role=tabpanel]').forEach(tp => {
-      if (_('[role=tabpanel]').indexOf(tp) === _('[role=tab]').indexOf(e.target)) { tp.removeAttribute('hidden') } else { tp.setAttribute('hidden', true) }
-    })
-  })
-})
-
 // --- GMT TIMEZONE LOGIC ---
 document.getElementById('timezone').addEventListener('change', function () {
   const timezone = document.getElementById('timezone').value

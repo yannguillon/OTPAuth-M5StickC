@@ -6,11 +6,11 @@ const config = {
     entry: {
         index: {
             import: [
-                './webserver/lib/javascript/lib/browserified-jscrypto.js',
                 './webserver/lib/javascript/lib/browserified-buffer.js',
                 './webserver/lib/javascript/lib/browserified-pblist-parser.js',
-                './webserver/lib/javascript/lib/flowbite.js',
+                './webserver/lib/javascript/app.js',
                 './webserver/lib/javascript/crypto.js',
+                './webserver/lib/javascript/parser.js',
                 './webserver/lib/javascript/otp.js',
                 './webserver/lib/javascript/base.js'
             ]
