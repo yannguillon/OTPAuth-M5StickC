@@ -1,8 +1,7 @@
 scratches
 *.otpauthdb
-webserver/lib/javascript/dist
 webserver/public/tailwind.min.css
-webserver/public/index.js
+webserver/public/app.js
 OTPAuth-M5StickC/webserver/dist/gzip/
 tmp
 node_modules
