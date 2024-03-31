@@ -14,7 +14,7 @@
 //#define timeout_ScreenOn 180000 // Shutdown time
 
 
-String rondom_letters = "AEF2345689";      // This string contains the characters used to generate the wifi password
+String random_letters = "AEF2345689";      // This string contains the characters used to generate the wifi password
 
 #include<WiFi.h>
 #include<WebServer.h>
@@ -52,7 +52,6 @@ WebServer server(80);
 #include"screen.h"
 #include"screen1.h"
 #include"screen2.h"
-#include"screen3.h"
 #include"math.h"
 
 void setup() {

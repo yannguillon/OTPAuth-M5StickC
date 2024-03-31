@@ -1,20 +1,22 @@
-import { Controller } from "@hotwired/stimulus"
-import BPlistParser from "../lib/browserified-pblist-parser"
-import { Buffer } from "buffer"
-import {AESCBCDecrypt, RNCryptorDecrypt} from "../crypto"
-import JsCrypto from "jscrypto"
+import { Controller } from '@hotwired/stimulus'
+import BPlistParser from '../../lib/browserified-pblist-parser'
+import { Buffer } from 'buffer'
+import { AESCBCDecrypt, RNCryptorDecrypt } from '../helpers/crypto'
+import { fetchWithOK } from '../helpers/requests'
+import { createAlert, createNotice } from "../helpers/flash"
+
+import JsCrypto from 'jscrypto'
 import {
   getNSData,
   getObjects,
   getUID
-} from '../parser'
-
+} from '../helpers/parser'
 
 export default class extends Controller {
   static targets = ['archive', 'password']
   static baseUrl = ''
 
-  async upload(e) {
+  async upload (e) {
     e.preventDefault()
 
     const file = this.archiveTarget.files[0]
@@ -27,7 +29,7 @@ export default class extends Controller {
         BPlistParser.parseFile(Buffer.from(data), (_err, result) => {
           decryptedData = RNCryptorDecrypt(getNSData(result, 5), password)
           if (decryptedData === null) {
-            window.alert('wrong password')
+           createAlert('Wrong Password')
             return null
           }
           this.next(decryptedData)
@@ -70,22 +72,29 @@ export default class extends Controller {
       })
 
       let i = 1
-      await fetch('/deleteAll', { method: 'POST' })
+      try {
+        await fetchWithOK('/deleteAll', 'POST', '')
+      } catch (_e) {
+        createAlert('Network error with M5Stick')
+        return
+      }
 
       for (const f of Object.keys(final)) {
-        await fetch('/add', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
+        try {
+          await fetchWithOK('/add', 'POST', {
             id: i,
             data: final[f].secret,
             label: final[f].issuer,
             user: final[f].label,
             hmac_length: final[f].hmac_length
           })
-        })
+        } catch (_e) {
+          createAlert('Network error with M5Stick')
+          return
+        }
         i += 1
       }
+      createNotice('Sync successful')
     })
   }
 }

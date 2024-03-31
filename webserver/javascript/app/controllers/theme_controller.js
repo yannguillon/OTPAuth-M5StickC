@@ -1,10 +1,10 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
   static storageKey = 'color-theme'
   static targets = ['lightIcon', 'darkIcon']
 
-  connect() {
+  connect () {
     this.storageKey = this.constructor.currentThemeStorageKey
     let currentTheme = window.localStorage.getItem(this.storageKey)
     if (currentTheme === null) {
@@ -15,8 +15,8 @@ export default class extends Controller {
     this.updateTheme(currentTheme)
   }
 
-  updateTheme(currentTheme) {
-    if(currentTheme === 'dark') {
+  updateTheme (currentTheme) {
+    if (currentTheme === 'dark') {
       document.documentElement.classList.remove('light')
       document.documentElement.classList.add('dark')
       this.lightIconTarget.classList.remove('hidden')
@@ -29,7 +29,7 @@ export default class extends Controller {
     }
   }
 
-  toggle() {
+  toggle () {
     const newTheme = window.localStorage.getItem(this.storageKey) === 'dark' ? 'light' : 'dark'
     window.localStorage.setItem(this.storageKey, newTheme)
     this.updateTheme(newTheme)

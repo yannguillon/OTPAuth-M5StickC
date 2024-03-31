@@ -4,17 +4,7 @@ const isProduction = process.env.NODE_ENV == 'production';
 
 const config = {
     entry: {
-        index: {
-            import: [
-                './webserver/lib/javascript/lib/browserified-buffer.js',
-                './webserver/lib/javascript/lib/browserified-pblist-parser.js',
-                './webserver/lib/javascript/app.js',
-                './webserver/lib/javascript/crypto.js',
-                './webserver/lib/javascript/parser.js',
-                './webserver/lib/javascript/otp.js',
-                './webserver/lib/javascript/base.js'
-            ]
-        }
+        app: { import: './webserver/javascript/app/app.js' }
     },
     optimization: {
         minimize: true,
@@ -27,10 +17,6 @@ const config = {
     output: {
         path: path.resolve(__dirname, 'webserver', 'public'),
     },
-    plugins: [
-        // Add your plugins here
-        // Learn more about plugins from https://webpack.js.org/configuration/plugins/
-    ],
     module: {
         rules: [
             {

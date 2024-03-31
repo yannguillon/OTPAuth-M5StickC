@@ -30,25 +30,25 @@ void OTP_screen() {
         } else {
           M5.Lcd.setCursor(10, 32);
         }
-        M5.Lcd.setFreeFont(&beta5pt7b);
+        M5.Lcd.setFreeFont(&inter8pt7b);
         M5.Lcd.print("NO OTPs");
 
         if (current_screen == STICKC) {
-          M5.Lcd.setCursor(10, 43);
+          M5.Lcd.setCursor(10, 53);
         } else {
-          M5.Lcd.setCursor(10, 43);
+          M5.Lcd.setCursor(10, 53);
         }
-        M5.Lcd.setFreeFont(&intermedium6pt7b);
+        M5.Lcd.setFreeFont(&inter8pt7b);
         M5.Lcd.print("GO TO WIFI SETUP");
 
         if (current_screen == STICKC) {
-          M5.Lcd.setCursor(10, 60);
+          M5.Lcd.setCursor(10, 80);
         } else {
-          M5.Lcd.setCursor(10, 60);
+          M5.Lcd.setCursor(10, 80);
         }
 
-        M5.Lcd.setFreeFont(&beta8pt7b);
-        M5.Lcd.print("OTPAUTH");
+        M5.Lcd.setFreeFont(&inter8pt7b);
+        M5.Lcd.print("OTPAuth-M5StickC");
 
         // if (current_screen == STICKC) {
         //    M5.Lcd.drawXBitmap(90, 17, logoapp_bits, logoapp_width, logoapp_height, BLACK, WHITE);

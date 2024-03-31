@@ -6,6 +6,13 @@ module.exports = {
   plugins: [
     require('flowbite/plugin')
   ],
-  darkMode: 'class',
-  // ...
+  safelist: [
+    'text-green-800',
+    'dark:text-green-400',
+    'bg-green-50',
+    'text-red-800',
+    'dark:text-red-400',
+    'bg-red-50'
+  ],
+  darkMode: 'class'
 }

@@ -1,10 +1,10 @@
-import { Controller } from "@hotwired/stimulus"
+import { Controller } from '@hotwired/stimulus'
 
 export default class extends Controller {
   static storageKey = 'dev-mode'
   static targets = ['devModeButton', 'devModeIcon']
 
-  connect() {
+  connect () {
     this.storageKey = this.constructor.storageKey
     const storageValue = window.localStorage.getItem(this.storageKey)
     if (storageValue === null) window.localStorage.setItem(this.storageKey, false.toString())
@@ -13,7 +13,7 @@ export default class extends Controller {
     this.update(devModeEnabled)
   }
 
-  update(devModeEnabled) {
+  update (devModeEnabled) {
     if (devModeEnabled) {
       this.devModeButtonTarget.classList.add('border-blue-600')
       this.devModeIconTarget.classList.remove('fill-gray-400')
@@ -25,8 +25,7 @@ export default class extends Controller {
       document.querySelectorAll('[class*="hidden-dev-mode"]').forEach((selector) => {
         selector.classList.add('hidden')
       })
-    }
-    else {
+    } else {
       this.devModeButtonTarget.classList.remove('border-blue-600')
       this.devModeIconTarget.classList.remove('fill-blue-600')
       this.devModeIconTarget.classList.add('fill-gray-400')
@@ -41,7 +40,7 @@ export default class extends Controller {
     }
   }
 
-  toggle() {
+  toggle () {
     const devModeEnabled = !(window.localStorage.getItem(this.storageKey) === 'true')
     window.localStorage.setItem(this.storageKey, devModeEnabled.toString())
     this.update(devModeEnabled)
