@@ -1,0 +1,25 @@
+name: Arduino CI
+on:
+  push:
+    branches: [ 'master' ]
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Compile Sketch
+        uses: arduino/compile-sketches@v1.1.0
+        with:
+          platforms: |
+            - name: "m5stack:esp32"
+              source-url: https://dl.espressif.com/dl/package_esp32_index.json
+          fqbn: m5stack:esp32:m5stack_stickc_plus2
+          sketch-paths: |
+            - OTPAuth-M5StickC
+          libraries: |
+            - name: Arduinojson
+            - name: M5GFX
+            - name: M5Unified
+            - name: TOTP library
+            - name: Time
