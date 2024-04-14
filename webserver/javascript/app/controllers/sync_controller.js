@@ -3,8 +3,7 @@ import BPlistParser from '../../lib/browserified-pblist-parser'
 import { Buffer } from 'buffer'
 import { AESCBCDecrypt, RNCryptorDecrypt } from '../helpers/crypto'
 import { fetchWithOK } from '../helpers/requests'
-import { createAlert, createNotice } from "../helpers/flash"
-
+import { createAlert, createNotice } from '../helpers/flash'
 import JsCrypto from 'jscrypto'
 import {
   getNSData,
@@ -29,7 +28,7 @@ export default class extends Controller {
         BPlistParser.parseFile(Buffer.from(data), (_err, result) => {
           decryptedData = RNCryptorDecrypt(getNSData(result, 5), password)
           if (decryptedData === null) {
-           createAlert('Wrong Password')
+            createAlert('Wrong Password')
             return null
           }
           this.next(decryptedData)
@@ -73,7 +72,7 @@ export default class extends Controller {
 
       let i = 1
       try {
-        await fetchWithOK('/deleteAll', 'POST', '')
+        await fetchWithOK('/otps', 'DELETE', '')
       } catch (_e) {
         createAlert('Network error with M5Stick')
         return
@@ -81,7 +80,7 @@ export default class extends Controller {
 
       for (const f of Object.keys(final)) {
         try {
-          await fetchWithOK('/add', 'POST', {
+          await fetchWithOK('/otps', 'POST', {
             id: i,
             data: final[f].secret,
             label: final[f].issuer,

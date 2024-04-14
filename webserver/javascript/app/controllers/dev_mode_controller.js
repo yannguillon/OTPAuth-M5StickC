@@ -19,6 +19,10 @@ export default class extends Controller {
       this.devModeIconTarget.classList.remove('fill-gray-400')
       this.devModeIconTarget.classList.add('fill-blue-600')
 
+      document.querySelectorAll('[class*="not-required-dev-mode"]').forEach((selector) => {
+        selector.removeAttribute('required')
+      })
+
       document.querySelectorAll('[class*="shown-dev-mode"]').forEach((selector) => {
         selector.classList.remove('hidden')
       })
@@ -29,6 +33,10 @@ export default class extends Controller {
       this.devModeButtonTarget.classList.remove('border-blue-600')
       this.devModeIconTarget.classList.remove('fill-blue-600')
       this.devModeIconTarget.classList.add('fill-gray-400')
+
+      document.querySelectorAll('[class*="not-required-dev-mode"]').forEach((selector) => {
+        selector.setAttribute('required', 'required')
+      })
 
       document.querySelectorAll('[class*="hidden-dev-mode"]').forEach((selector) => {
         selector.classList.remove('hidden')

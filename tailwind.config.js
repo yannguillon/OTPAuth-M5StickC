@@ -12,7 +12,8 @@ module.exports = {
     'bg-green-50',
     'text-red-800',
     'dark:text-red-400',
-    'bg-red-50'
+    'bg-red-50',
+    'fill-blue-600'
   ],
   darkMode: 'class'
 }

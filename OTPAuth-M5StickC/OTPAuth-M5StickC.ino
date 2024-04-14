@@ -47,7 +47,7 @@ WebServer server(80);
 #include"webserver/dist/gzip/index.html.h"
 #include"webserver/dist/gzip/tailwind.min.css.h"
 #include"webserver/dist/gzip/favicon.png.h"
-#include"webserver/dist/gzip/index.js.h"
+#include"webserver/dist/gzip/app.js.h"
 
 #include"screen.h"
 #include"screen1.h"
@@ -87,8 +87,10 @@ void setup() {
   if (NVS.getInt("bg_color") != 0) {
     bg_color = NVS.getInt("bg_color");
   }
-  if (NVS.getInt("txt_color") != 0) {
-    txt_color = NVS.getInt("txt_color");
+
+  if (NVS.getString("txt_color") != "") {
+    txt_color = NVS.getString("txt_color").toInt();
+    Serial.println("txt_color: " + NVS.getString("txt_color"));
   }
 
   M5.Lcd.setRotation(1);

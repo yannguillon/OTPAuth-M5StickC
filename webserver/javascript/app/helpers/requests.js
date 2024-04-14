@@ -10,6 +10,7 @@ async function fetchWithOK (path, method, body) {
   }
   return response
 }
+
 export {
   fetchWithOK
 }

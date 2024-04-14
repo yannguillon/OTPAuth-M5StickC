@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html data-controller="dev-mode">
+<html lang="en-US" data-controller="dev-mode">
 <head>
   <title>OTPAuth-M5StickC</title>
   <link rel="icon" type="image/png" href="/favicon.png">
@@ -12,8 +12,8 @@
 <body class="dark:bg-gray-900 antialiased pb-28">
 <div data-controller="tabs" data-tabs-active-class="font-bold">
   <div class="container mx-auto max-w-xs border-gray-200 ">
-    <nav class="border-gray-200 py-5">
-      <ul class="font-medium flex mt-4 flex-row md:space-x-8 justify-center">
+    <nav class="border-gray-200 p-5 max-w-xs">
+      <ul class="font-medium flex mt-4 flex-row justify-between">
         <li class="block py-2 px-3 text-gray-900 cursor-pointer rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">
           <a data-tabs-target="btn" data-tabs-active-param="tab1" data-action="click->tabs#select">About</a>
         </li>
@@ -21,23 +21,18 @@
           <a class="block py-2 px-3 text-gray-900 rounded cursor-pointer hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" data-tabs-target="btn" data-tabs-active-param="tab2" data-action="click->tabs#select">Sync</a>
         </li>
         <li>
-          <a class="block py-2 px-3 text-gray-900 rounded cursor-pointer hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" data-tabs-target="btn" data-tabs-active-param="tab3"  data-action="click->tabs#select" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Config</a>
-        </li>
-        <li>
-          <a class="block py-2 px-3 text-gray-900 rounded cursor-pointer hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" data-tabs-target="btn" data-tabs-active-param="tab4"  data-action="click->tabs#select" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Firmware</a>
+          <a class="block py-2 px-3 text-gray-900 rounded cursor-pointer hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" data-tabs-target="btn" data-tabs-active-param="tab3"  data-action="click->tabs#select">Config</a>
         </li>
       </ul>
     </nav>
-    <div
-            data-controller="flash"
-            data-flash-hidden-value="true"
-            data-action="flash@window->flash#show"
-            class="transition transform duration-1000 hidden"
-            data-transition-enter-from="opacity-0 translate-x-6"
-            data-transition-enter-to="opacity-100 translate-x-0"
-            data-transition-leave-from="opacity-100 translate-x-0"
-            data-transition-leave-to="opacity-0 translate-x-6"
-    >
+    <div data-controller="flash"
+         data-flash-hidden-value="true"
+         data-action="flash@window->flash#show"
+         class="transition transform duration-1000 hidden"
+         data-transition-enter-from="opacity-0 translate-x-6"
+         data-transition-enter-to="opacity-100 translate-x-0"
+         data-transition-leave-from="opacity-100 translate-x-0"
+         data-transition-leave-to="opacity-0 translate-x-6">
       <div data-flash-target="flash" class="flex items-center p-4 mb-4 rounded-lg dark:bg-gray-800 " role="alert">
         <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
           <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
@@ -52,10 +47,9 @@
         </button>
       </div>
     </div>
-    <!--  add tabs-->
     <div>
-      <div data-tabs-target="tab" id="tab1" >
-        <div class="mt-10 w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 ">
+      <div data-tabs-target="tab" id="tab1">
+        <div class=" w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 ">
           <div class="text-gray-900 dark:text-white">
             <div class="flex items-center justify-between mb-5">
               <h5 class="text-xl font-medium t">OTPAuth-M5StickC</h5>
@@ -79,7 +73,9 @@
                 <h4><i>Thanks: </i><a target="_blank" class="font-bold" href="https://github.com/Hinaser/jscrypto">@Hinaser</a>, contributors of <a target="_blank" class="font-bold" href="https://github.com/Hinaser/jscrypto">Browserify</a></h4>
               </div>
               <div class="py-4">
-                <h4><i>Not Thanks: </i><span class="font-bold">W3C</span> <div><a class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline" target="_blank" href="https://github.com/w3c/webcrypto/issues/28#issuecomment-1174004465">for deliberately blocking browsers crypto APIs to makers</a></div></h4>
+                <i>Not Thanks: </i>
+                <span class="font-bold">W3C</span>
+                <a class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline" target="_blank" href="https://github.com/w3c/webcrypto/issues/28#issuecomment-1174004465">for deliberately blocking browsers crypto APIs to makers</a></h4>
               </div>
             </div>
           </div>
@@ -96,24 +92,24 @@
               <input data-sync-target="password" type="password" id="password" placeholder="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required>
             </div>
             <div class="hidden-dev-mode">
-              <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">I understand that :</span></label>
+              <label class="block mb-5 text-sm font-medium text-gray-900 dark:text-white">I understand that :</label>
               <ul class="w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-600 dark:text-white">
                 <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                   <div class="flex items-center px-3">
-                    <input id="checkbox-http" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" required>
+                    <input id="checkbox-http" type="checkbox" class="not-required-dev-mode w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" required>
                     <label for="checkbox-http" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Unencrypted keys will be sent to the device over HTTP</label>
                   </div>
                 </li>
                 <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                   <div class="flex items-center px-3">
-                    <input id="checkbox-browser" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" required>
+                    <input id="checkbox-browser" type="checkbox" class="not-required-dev-mode w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" required>
                     <label for="checkbox-browser" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Private keys will be decrypted in this browser</label>
                   </div>
                 </li>
 
                 <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                   <div class="flex items-center px-3">
-                    <input id="checkbox-storage" type="checkbox" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" required>
+                    <input id="checkbox-storage" type="checkbox" class="not-required-dev-mode w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500" required>
                     <label for="checkbox-storage" class="w-full py-3 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Key data will be stored unencrypted in device memory</label>
                   </div>
                 </li>
@@ -125,88 +121,76 @@
         <article>
         </article>
       </div>
-      <div data-controller="settings" data-tabs-target="tab" id="tab3" hidden>
-        <div class="shown-dev-mode w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-          <form class="space-y-6" action="#">
+      <div data-controller="wlan-settings" data-tabs-target="tab" id="tab3" hidden>
+        <div class="shown-dev-mode mb-10 w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <form data-action="submit->wlan-settings#update" class="space-y-6">
             <h5 class="text-xl font-medium text-gray-900 dark:text-white">Wifi configuration</h5>
             <div>
-              <label for="wifiModeSelect" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mode</label>
-              <select id="wifiModeSelect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="wifi-mode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Mode</label>
+              <select data-wlan-settings-target="mode" id="wifi-mode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="AP">AP</option>
                 <option value="STA">Host</option>
               </select>
             </div>
             <div>
-              <label for="ssidInput" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SSID</label>
-              <input type="text" id="ssidInput" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="ssid" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">SSID</label>
+              <input data-wlan-settings-target="ssid" type="text" id="ssid" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
             <div>
-              <label for="passwordModeSelect" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password Mode</label>
-              <select id="passwordModeSelect" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="password-mode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password Mode</label>
+              <select data-wlan-settings-target="passwordMode" id="password-mode" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                 <option value="0">Random</option>
                 <option value="1">Fixed</option>
               </select>
             </div>
             <div>
-              <label for="passwordInput" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-              <input type="password" id="passwordInput" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="wifi-password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+              <input data-wlan-settings-target="password" type="password" id="wifi-password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
 
-            <button type="submit" id="applyWifiButton" class="applyWifiButton w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
+            <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Save</button>
           </form>
         </div>
-        <div class="mt-10 w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-          <form action="#"  data-action="submit->settings#updateTimezone">
+        <div data-controller="time-settings" class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <form data-action="submit->time-settings#updateTimezone">
             <h5 class="text-xl font-medium text-gray-900 dark:text-white">Time configuration</h5>
             <div>
               <label for="timezone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Timezone</label>
-              <input data-settings-target="timezone" type="number" min="-12" max="14" step="0.5" value="0" id="timezone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <input data-time-settings-target="timezone" type="number" min="-12" max="14" step="0.5" value="0" id="timezone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
-            <input type="submit" value="Set timezone" class="unixButton mt-2 text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
+            <input type="submit" value="Set timezone" class="mt-2 text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
           </form>
-          <form data-action="submit->settings#syncTime" class="mt-5">
+          <form data-action="submit->time-settings#syncTime" class="mt-5">
             <label for="sync-time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Sync Time</label>
-            <input type="submit" value="Sync Time" id="sync-time" class="unixButton text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
+            <input type="submit" value="Sync Time" id="sync-time" class="text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
           </form>
         </div>
 
-        <div class="mt-10  w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-          <form class="space-y-6" action="#">
-            <h5 class="text-xl font-medium text-gray-900 dark:text-white">Screen configuration</h5>
+        <div data-controller="display-settings" class="mt-10 w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <form class="space-y-6" data-action="submit->display-settings#update">
+            <h5 class="text-xl font-medium text-gray-900 dark:text-white">Display configuration</h5>
             <div>
-              <label for="screenTimeout" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Screen Timeout (s)</label>
-              <input type="number" min="0" max="9999" step="5" value="0" id="screenTimeout" name="screenTimeout" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="display-timeout" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Display Timeout (s)</label>
+              <input data-display-settings-target="timeout" type="number" min="0" max="9999" step="5" value="0" id="display-timeout" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
             <div>
               <label for="brightness" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Brightness</label>
-              <input type="range" name="brightness" min="15" max="255" value="100" id="brightness" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
+              <input data-display-settings-target="brightness" type="range" name="brightness" min="15" max="255" value="100" id="brightness" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700">
             </div>
             <div>
-              <label for="bg_color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Background Color</label>
-              <input type="color" id="bg_color" name="color" value="#000000" min="15" max="255" value="100" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="background-color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Background Color</label>
+              <input id="background-color" value="#000000" data-display-settings-target="backgroundColor" type="color" class="p-1 h-10 w-14 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700" title="Choose your color">
             </div>
             <div>
-              <label for="txt_color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Text Color</label>
-              <input type="color" id="txt_color" name="color" value="#000000" min="15" max="255" value="100" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="text-color" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Text Color</label>
+              <input id="text-color" value="#FFFFFF" data-display-settings-target="textColor" type="color" class="p-1 h-10 w-14 block bg-white border border-gray-200 cursor-pointer rounded-lg disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700" title="Choose your color">
             </div>
-            <input type="submit" value="Sync Time" id="setScreenSettings" class="unixButton mt-5 text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
+            <input type="submit" value="Update display settings" class="unixButton mt-5 text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
           </form>
         </div>
-        <div class="mt-10 w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-          <button type="submit" id="factoryReset" class="applyWifiButtonresetButton w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Factory reset</button>
+        <div data-controller="reset" class="mt-10 w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+          <button type="submit" data-action="click->reset#reset" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Factory reset</button>
         </div>
-      </div>
-      <div data-tabs-target="tab" id="tab4" hidden>
-        <form class="space-y-6" action="#" method='POST' action='#' enctype='multipart/form-data' id='upload_form'>
-          <h5 class="text-xl font-medium text-gray-900 dark:text-white">Current version: <b>1.2</b></h5>
-          <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file">Your firmware file <span class="text-gray-400">( .bin )</span></label>
-          <input id="file" onchange='sub(this)' class="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400" type="file">
-          <input id="update-fimrware" type="submit" value="Update firmware" class="mt-5 text-white bg-blue-700 w-full hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" />
-          <div id="prg"></div> <!-- Info panel -->
-          <div id='prgbar'>
-            <div id='bar'></div>
-          </div>
-        </form>
       </div>
     </div>
   </div>
@@ -219,11 +203,10 @@
       <svg data-theme-target="lightIcon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path></svg>
     </button>
   </div>
-
   <div class="pl-2">
     <div data-dev-mode-target="devModeButton" data-action="click->dev-mode#toggle" type="button" class=" p-1 pr-2 inline-flex items-center justify-between w-full text-gray-500 bg-white border-2 rounded-lg cursor-pointer dark:hover:text-gray-300 hover:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700 border-blue-600">
-      <svg data-dev-mode-target="devModeIcon" class="w-8 h-8 fill-blue-600 fill-gray-400" xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-        <path d="M78.5,53.6H75V46.4h3.5a3.6,3.6,0,1,0,0-7.1H75V32.2A7.2,7.2,0,0,0,67.8,25H60.7V21.5a3.6,3.6,0,1,0-7.1,0V25H46.4V21.5a3.6,3.6,0,1,0-7.1,0V25H32.2A7.2,7.2,0,0,0,25,32.2v7.1H21.5a3.6,3.6,0,1,0,0,7.1H25v7.2H21.5a3.6,3.6,0,1,0,0,7.1H25v7.1A7.2,7.2,0,0,0,32.2,75h7.1v3.5a3.6,3.6,0,1,0,7.1,0V75h7.2v3.5a3.6,3.6,0,1,0,7.1,0V75h7.1A7.2,7.2,0,0,0,75,67.8V60.7h3.5a3.6,3.6,0,1,0,0-7.1ZM67.8,67.8H32.2V32.2H67.8Z"  fill-rule="evenodd"/>
+      <svg data-dev-mode-target="devModeIcon" class="w-8 h-8 fill-gray-400" xmlns="http://www.w3.org/2000/svg" x="0" y="0" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+        <path d="M78.5,53.6H75V46.4h3.5a3.6,3.6,0,1,0,0-7.1H75V32.2A7.2,7.2,0,0,0,67.8,25H60.7V21.5a3.6,3.6,0,1,0-7.1,0V25H46.4V21.5a3.6,3.6,0,1,0-7.1,0V25H32.2A7.2,7.2,0,0,0,25,32.2v7.1H21.5a3.6,3.6,0,1,0,0,7.1H25v7.2H21.5a3.6,3.6,0,1,0,0,7.1H25v7.1A7.2,7.2,0,0,0,32.2,75h7.1v3.5a3.6,3.6,0,1,0,7.1,0V75h7.2v3.5a3.6,3.6,0,1,0,7.1,0V75h7.1A7.2,7.2,0,0,0,75,67.8V60.7h3.5a3.6,3.6,0,1,0,0-7.1ZM67.8,67.8H32.2V32.2H67.8Z" fill-rule="evenodd"/>
       </svg>
       <span class="font-bold">Dev mode</span>
     </div>

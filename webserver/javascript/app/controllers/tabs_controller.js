@@ -12,8 +12,8 @@ export default class extends Controller {
   select (event) {
     const selectedTab = this.tabTargets.find(element => element.id === event.params.active)
     if (selectedTab.hidden) {
-      this.tabTargets.map(x => { return x.hidden = true })
-      this.btnTargets.map(x => { return x.classList.remove(...this.activeClasses) })
+      this.tabTargets.forEach(x => { x.hidden = true })
+      this.btnTargets.forEach(x => { x.classList.remove(...this.activeClasses) })
       selectedTab.hidden = false
       event.currentTarget.classList.add(...this.activeClasses)
     }
