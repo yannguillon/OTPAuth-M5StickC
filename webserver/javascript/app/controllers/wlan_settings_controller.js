@@ -13,7 +13,6 @@ export default class extends Controller {
 
       this.modeTarget.value = parsedResponse.mode
       this.ssidTarget.value = parsedResponse.ssid
-      this.passwordTarget.value = parsedResponse.password
       this.passwordModeTarget.value = parsedResponse.passwordMode
     } catch (_e) {
       createAlert('Network error with M5Stick (fetching wlan configuration)')
