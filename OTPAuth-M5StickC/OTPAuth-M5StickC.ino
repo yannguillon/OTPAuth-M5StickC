@@ -16,30 +16,24 @@
 
 String random_letters = "AEF2345689";      // This string contains the characters used to generate the wifi password
 
-#include<WiFi.h>
-#include<WebServer.h>
+#include <WiFi.h>
+#include <WebServer.h>
 #include <WiFiClient.h>
 #include <ESPmDNS.h>
 #include <Update.h>
-#include<WiFiAP.h>
-#include<TOTP.h>
-#include<TimeLib.h>
-#include<ArduinoJson.h>
-#include"ArduinoNvs.h"
-
-#include"M5Unified.h"
+#include <WiFiAP.h>
+#include <TOTP.h>
+#include <TimeLib.h>
+#include <ArduinoJson.h>
+#include "ArduinoNvs.h"
+#include "M5Unified.h"
 
 // Run-Time Variables //
 
 WebServer server(80);
 
-#include"beta15pt7b.h"
-#include"beta10pt7b.h"
-#include"beta8pt7b.h"
-#include"beta5pt7b.h"
 #include"Mishmash21pt7b.h"
 #include"Inter8pt7b.h"
-#include"Intermedium6pt7b.h"
 #include"Inter12pt7b.h"
 
 #include"variable_runtime.h"
@@ -96,12 +90,6 @@ void setup() {
   M5.Lcd.setRotation(1);
   screen_x = M5.Lcd.width();
   screen_y = M5.Lcd.height();
-
-  if (screen_x == 135) {
-    current_screen = STICKC;
-  } else {
-    current_screen = STICKCPLUS;
-  }
 
   M5.Lcd.fillScreen(bg_color);
   M5.Lcd.setTextSize(1);

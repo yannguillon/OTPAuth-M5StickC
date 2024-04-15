@@ -1,7 +1,6 @@
 import { Controller } from '@hotwired/stimulus'
 import { fetchWithOK } from '../helpers/requests'
 import { createAlert, createNotice } from '../helpers/flash'
-import { convertToRGB888 } from '../helpers/colors'
 
 export default class extends Controller {
   static targets = ['mode', 'ssid', 'password', 'passwordMode']

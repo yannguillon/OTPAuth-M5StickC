@@ -28,7 +28,7 @@ export default class extends Controller {
       bg_color: convertToRGB565(this.backgroundColorTarget.value),
       txt_color: convertToRGB565(this.textColorTarget.value)
     }
-    console.log(this.timeoutTarget.value, this.brightnessTarget.value, this.textColorTarget.value, this.backgroundColorTarget.value)
+
     try {
       await fetchWithOK('/config/display', 'PATCH', body)
     } catch (_e) {

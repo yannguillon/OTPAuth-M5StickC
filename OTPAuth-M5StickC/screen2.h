@@ -1,18 +1,20 @@
+// Copyright 2024 Yann Guillon
+// Copyright 2024 Alex Licata
+// Copyright 2020 Imad Mezghache
+
+#ifndef OTPAUTH_M5STICKC_SCREEN2_H_
+#define OTPAUTH_M5STICKC_SCREEN2_H_
 
 void Wifi_screen() {
-
-  // -------  GET THE WIFI SETTINGS --------- //
-
-  // generate SSID for wifi AP
+  /* generate SSID for wifi AP */
   char AP_ssid[13];
   String macaddr = String(WiFi.macAddress());
   macaddr.replace(":", "");
-  macaddr = macaddr.substring(6);
+  macaddr = macaddr.substring(8);
   String ssid_mac = "M5STICK_" + macaddr;
   ssid_mac.toCharArray(AP_ssid, 13);
 
-
-  //----- generate password for wifi
+  /* generate password for wifi */
   String pass_gen = "";
   for (int i = 0; i < 8; i++) {
     pass_gen += random_letters[random(0, random_letters.length() - 1)];
@@ -24,7 +26,7 @@ void Wifi_screen() {
     pass_static = "1A2B3C4D5E";  // fallback to an unsecure password
   }
 
-  //0 : random password mode, 1 : static password mode
+  /* 0 : random password mode, 1 : static password mode */
   passwordMode = NVS.getInt("passwordMode");
   Wifi_Mode = NVS.getString("wifiMode");  // Default mode
 
@@ -50,8 +52,7 @@ void Wifi_screen() {
   char password[Wifi_PASSWORD.length() + 1];
   Wifi_PASSWORD.toCharArray(password, Wifi_PASSWORD.length() + 1);
 
-
-  // clear the screen, except the toolbar area
+  /* clear the screen, except the toolbar area */
   M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, bg_color);
   show_wait_icon();
 
@@ -68,21 +69,19 @@ void Wifi_screen() {
     Serial.println("Try Connecting to " + Wifi_SSID);
 
     // Wait for the connection to complete
-    unsigned long startTime = millis();
+    uint32_t startTime = millis();
     while (WiFi.status() != WL_CONNECTED) {
       delay(250);
-      // If the connection doesn't complete within 10 seconds, break the loop
       if (millis() - startTime > 10000) {
-        break;
+        break;  // If the connection doesn't complete within 10 seconds, break the loop
       }
     }
     Serial.println("Connection status: " + String(WiFi.status()));
-    // print the ip address in the serial monitor and in the screen
     Serial.println("Connected to " + Wifi_SSID + " with IP: " + WiFi.localIP().toString());
   }
 
 
-  // If the connection failed, fallback to AP mode
+  /* If the connection failed, fallback to AP mode */
   if (Wifi_Mode != "AP" && WiFi.status() != WL_CONNECTED) {
     Serial.println("Failed to connect to the specified network. Falling back to AP mode.");
     Wifi_SSID = ssid_mac;
@@ -93,8 +92,7 @@ void Wifi_screen() {
     Serial.println("AP mode started, ssid: " + String(AP_ssid) + ", password: " + password);
   }
 
-  // use mdns to resolve the hostname
-  if (MDNS.begin("m5stick")) {  //http://esp32.local
+  if (MDNS.begin("m5stick")) {
     Serial.println("mDNS responder started");
     _mdnsStarted = true;
   } else {
@@ -102,88 +100,43 @@ void Wifi_screen() {
     _mdnsStarted = false;
   }
 
-
-  // clear the wait icon
   clear_wait_icon();
 
-  // print the wifi settings in the screen
-  if (current_screen == STICKC) {
-    M5.Lcd.setFreeFont(&inter8pt7b);
-    M5.Lcd.setCursor(10, 33);
-  } else {
-    M5.Lcd.setFreeFont(&inter8pt7b);
-    M5.Lcd.setCursor(9, 36);
-  }
+  M5.Lcd.setFreeFont(&inter8pt7b);  // print the wifi settings in the screen
+  M5.Lcd.setCursor(9, 36);
   M5.Lcd.print("CONNECT TO:");
-
-
-  if (current_screen == STICKC) {
-    M5.Lcd.setFreeFont(&inter12pt7b);
-    M5.Lcd.setCursor(10, 38);
-  } else {
-    M5.Lcd.setFreeFont(&inter12pt7b);
-    M5.Lcd.setCursor(10, 53);
-  }
+  M5.Lcd.setFreeFont(&inter12pt7b);
+  M5.Lcd.setCursor(10, 53);
   M5.Lcd.print(Wifi_SSID);
+  M5.Lcd.setFreeFont(&inter12pt7b);
+  M5.Lcd.setCursor(10, 80);
 
-  if (current_screen == STICKC) {
-    M5.Lcd.setFreeFont(&inter12pt7b);
-    M5.Lcd.setCursor(10, 52);
-  } else {
-    M5.Lcd.setFreeFont(&inter12pt7b);
-    M5.Lcd.setCursor(10, 80);
-  }
-
-  // we don't want to show the password in the screen if not in AP mode
-  if (Wifi_Mode == "AP") {
+  if (Wifi_Mode == "AP") {  // reuse line for either password or IP
     M5.Lcd.print(Wifi_PASSWORD);
-    M5.Lcd.setFreeFont(&inter8pt7b);
-    // print ip
-    if (current_screen == STICKC) {
-      M5.Lcd.setCursor(10, 72);
-    } else {
-      M5.Lcd.setCursor(10, 108);
-    }
-    // print the ip address in the screen
-    if (_mdnsStarted) {
-      M5.Lcd.print("GO TO: m5stick.local");
-    } else {
-      M5.Lcd.print("192.168.4.1");
-    }
-
   } else {
-      M5.Lcd.setFreeFont(&inter8pt7b);
-      // print ip
-      if (current_screen == STICKC) {
-        M5.Lcd.setCursor(10, 72);
-      } else {
-        M5.Lcd.setCursor(10, 108);
-      }
-    if (_mdnsStarted) {
-      M5.Lcd.print("GO TO: m5stick.local");
-    } else {
-      M5.Lcd.print(WiFi.localIP().toString());
-    }
+    M5.Lcd.print(WiFi.localIP().toString());
   }
 
-  //----- start server
+  M5.Lcd.setCursor(10, 105);
+  M5.Lcd.setFreeFont(&inter8pt7b);
+  if (_mdnsStarted) {
+    M5.Lcd.print("http://m5stick.local");
+  }
+
   server.enableCORS();
   server.enableCrossOrigin();
 
-  // Route for serving the zipped HTML page
   server.on("/", HTTP_GET, []() {
     previousMillis = millis();
     server.sendHeader("Content-Encoding", "gzip");
     server.send_P(200, "text/html", index_html_gz, sizeof(index_html_gz));
   });
 
-  // Route to load style.css file
   server.on("/tailwind.min.css", HTTP_GET, []() {
     server.sendHeader("Content-Encoding", "gzip");
     server.send_P(200, "text/css", tailwind_min_css_gz, sizeof(tailwind_min_css_gz));
   });
 
-  // Route to load the favicon.ico file
   server.on("/favicon.png", HTTP_GET, []() {
     server.sendHeader("Content-Encoding", "gzip");
     server.send_P(200, "image/png", favicon_png_gz, sizeof(favicon_png_gz));
@@ -196,58 +149,47 @@ void Wifi_screen() {
 
   server.handleClient();
 
-  //----------------add-------------------
-
-  // preflight OPTIONS request for the /add endpoint
   server.on("/otps", HTTP_OPTIONS, []() {
     server.send(200);
   });
   server.on("/otps", HTTP_POST, []() {
-    jsondata.clear();
     previousMillis = millis();
-    String pincode = NVS.getString("pincode");
-    if (pin_UNLOCK == pincode) {
+    jsondata.clear();
+    deserializeJson(jsondata, server.arg(0));
+    int hmac_length = jsondata["hmac_length"];
+    uint8_t hmacKey[hmac_length] = {};
 
-      deserializeJson(jsondata, server.arg(0));
-      int hmac_length = jsondata["hmac_length"];
-      uint8_t hmacKey[hmac_length] = {};
+    for (int i = 0; i < hmac_length; i++) {
+      hmacKey[i] = jsondata["data"][i];
+    }
 
-      for (int i = 0; i < hmac_length; i++) {
-        hmacKey[i] = jsondata["data"][i];
-      }
+    int id = jsondata["id"];
 
-      int id = jsondata["id"];
+    String otpBool = jsondata["id"];
+    otpBool = "B" + otpBool;
 
-      String otpBool = jsondata["id"];
-      otpBool = "B" + otpBool;
+    if (NVS.getInt(otpBool) == 0) {
+      NVS.setInt(otpBool, 1);
 
-      if (NVS.getInt(otpBool) == 0) {
+      String otpUser = jsondata["id"];
+      otpUser = "U" + otpUser;
+      NVS.setString(otpUser, jsondata["user"]);
 
-        NVS.setInt(otpBool, 1);
+      String otpLabel = jsondata["id"];
+      otpLabel = "L" + otpLabel;
+      NVS.setString(otpLabel, jsondata["label"]);
 
-        String otpUser = jsondata["id"];
-        otpUser = "U" + otpUser;
-        NVS.setString(otpUser, jsondata["user"]);
+      NVS.setBlob(jsondata["id"], hmacKey, hmac_length);
 
-        String otpLabel = jsondata["id"];
-        otpLabel = "L" + otpLabel;
-        NVS.setString(otpLabel, jsondata["label"]);
+      server.send(200, " text/html", "OK");
 
-        NVS.setBlob(jsondata["id"], hmacKey, hmac_length);
-
-        server.send(200, " text/html", "OK");
-
-      } else {
-        server.send(200, " text/html", "ALREADY EXISTS");
-      }
     } else {
-      server.send(200, " text/html", "LOCKED");
+      server.send(200, " text/html", "ALREADY EXISTS");
     }
   });
 
-  //----------------delete all -------------------
-
   server.on("/otps", HTTP_DELETE, []() {
+    previousMillis = millis();
     for (int i = 0; i < maxOTPs; i++) {
       String realIndex = String(i + 1);
       NVS.erase(realIndex);
@@ -259,9 +201,6 @@ void Wifi_screen() {
     server.send(200);
   });
 
-  //----------------factoryReset--------------
-
-  // Handle preflight OPTIONS
   server.on("/reset", HTTP_OPTIONS, []() {
     server.send(200);
   });
@@ -272,8 +211,6 @@ void Wifi_screen() {
     ESP.restart();
   });
 
-  //----------------unix--------------                 set time with UNIX
-  // handle preflight OPTIONS request
   server.on("/config", HTTP_OPTIONS, []() {
     server.send(200);
   });
@@ -287,7 +224,8 @@ void Wifi_screen() {
     setTime(unix);
 
     // from unix to rtc_datetime_t
-    tm* tm_struct = gmtime(&unix);
+    tm* tm_struct;
+    gmtime_r(&unix, tm_struct);
 
     M5.Rtc.setDateTime(tm_struct);
 
@@ -298,13 +236,6 @@ void Wifi_screen() {
   server.on("/config/timezone", HTTP_GET, []() {
     previousMillis = millis();
     jsondata.clear();
-    // String  pincode = NVS.getString ("pincode");
-    // if (pin_UNLOCK != pincode) {
-    //   server.send(200, "text/html", "LOCKED");
-    //   return;
-    // }
-
-    // return the timezone value from timezone_h and timezone_m
     float _timezone = timezone_h + (timezone_m / 60.0);
 
     jsondata["timezone"] = _timezone;
@@ -315,8 +246,6 @@ void Wifi_screen() {
     server.send(200, "text/html", dataout);
   });
 
-  // set the timezone
-
   server.on("/config/timezone", HTTP_OPTIONS, []() {
     server.send(200);
   });
@@ -325,8 +254,6 @@ void Wifi_screen() {
     previousMillis = millis();
     jsondata.clear();
     deserializeJson(jsondata, server.arg(0));
-
-    // set timezone_h and timezone_m from the float value
     float _timezone = jsondata["timezone"];
 
     if (_timezone < -14 || _timezone > 14) {
@@ -344,18 +271,12 @@ void Wifi_screen() {
     server.send(200, "text/html", "OK");
   });
 
-  // -----------------setWifi-----------------            set the wifi settings
   server.on("/config/wlan", HTTP_OPTIONS, []() {
     server.send(200);
   });
 
   server.on("/config/wlan", HTTP_PATCH, []() {
     previousMillis = millis();
-    String pincode = NVS.getString("pincode");
-    if (pin_UNLOCK != pincode) {
-      server.send(200, "text/html", "LOCKED");
-      return;
-    }
     jsondata.clear();
     deserializeJson(jsondata, server.arg(0));
 
@@ -386,15 +307,7 @@ void Wifi_screen() {
     server.send(200, "text/html", "OK");
   });
 
-  // endpoint for get the current wifi settings (mode, ssid, passwordMode)
   server.on("/config/wlan", HTTP_GET, []() {
-    previousMillis = millis();
-    String pincode = NVS.getString("pincode");
-    if (pin_UNLOCK != pincode) {
-      server.send(200, "text/html", "LOCKED");
-      return;
-    }
-
     jsondata.clear();
 
     jsondata["mode"] = NVS.getString("wifiMode");
@@ -407,7 +320,6 @@ void Wifi_screen() {
     server.send(200, "text/html", dataout);
   });
 
-  // Set the LCD Brightness and timeout
   server.on("/config/display", HTTP_OPTIONS, []() {
     server.send(200);
   });
@@ -419,12 +331,9 @@ void Wifi_screen() {
 
     if (jsondata.containsKey("brightness")) {
       int _brightness = jsondata["brightness"];
-      // clamp the brightness value between 10 and 255
-      _brightness = constrain(_brightness, 10, 255);
+      _brightness = constrain(_brightness, 10, 255);  // clamp the brightness value between 10 and 255
       M5.Lcd.setBrightness(_brightness);
       lcd_brightness = _brightness;
-
-      // save the brightness value to the NVS
       NVS.setInt("lcd_brightness", _brightness);
     }
 
@@ -455,7 +364,7 @@ void Wifi_screen() {
 
     server.send(200, "text/html", "OK");
   });
-  // Get the current LCD Brightness and timeout in seconds
+
   server.on("/config/display", HTTP_GET, []() {
     previousMillis = millis();
     jsondata.clear();
@@ -479,3 +388,5 @@ void Wifi_screen() {
   }
   WiFi.mode(WIFI_OFF);
 }
+
+#endif  // OTPAUTH_M5STICKC_SCREEN2_H_

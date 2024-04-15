@@ -23,7 +23,6 @@ export default class extends Controller {
         timezone: this.timezoneTarget.value
       })
     } catch (_e) {
-      console.log(_e)
       createAlert('Network error with M5Stick')
       return
     }

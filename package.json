@@ -4,6 +4,7 @@
     "@babel/preset-env": "^7.24.3",
     "@webpack-cli/generators": "^3.0.7",
     "babel-loader": "^9.1.3",
+    "cc": "^3.0.1",
     "concurrently": "^8.2.2",
     "webpack-cli": "^5.1.4",
     "webpack-dev-middleware": "^7.1.1"
@@ -12,8 +13,18 @@
   "description": "My webpack project",
   "name": "my-webpack-project",
   "scripts": {
-    "build": "npx standard ./webserver/javascript/app --fix && webpack --mode=production --node-env=production",
+    "js-lint": "npx standard ./webserver/javascript/app --fix",
+    "build": "npm run -s js-lint && cpplint && webpack --mode=production --node-env=production",
     "watch": "concurrently \"webpack --watch\" \"npx tailwindcss -o ./webserver/public/tailwind.min.css --watch\""
+  },
+  "cc": {
+    "linelength": "120",
+    "files": [
+      "./OTPAuth-M5StickC/screen.h",
+      "./OTPAuth-M5StickC/screen1.h",
+      "./OTPAuth-M5StickC/screen2.h",
+      "./OTPAuth-M5StickC/variable_runtime.h"
+    ]
   },
   "dependencies": {
     "@hotwired/stimulus": "^3.2.2",
