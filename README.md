@@ -1,3 +1,5 @@
+![Arduino Build](https://github.com/yannguillon/OTPAuth-M5StickC/actions/workflows/ci.yml/badge.svg)
+
 # OXOTP+
 
 <p align="center"><img alt="PICTURE logo" src=".readme/img/oxotp-ss2.png" width="450"></p>
