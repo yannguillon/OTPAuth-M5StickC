@@ -14,7 +14,8 @@
   "name": "my-webpack-project",
   "scripts": {
     "js-lint": "npx standard ./webserver/javascript/app --fix",
-    "build": "npm run -s js-lint && cpplint && webpack --mode=production --node-env=production",
+    "tailwind-build": "tailwindcss -o ./webserver/public/tailwind.min.css --minify",
+    "build": "npm run -s js-lint && cpplint && npm run -s tailwind-build && webpack --mode=production --node-env=production",
     "watch": "concurrently \"webpack --watch\" \"npx tailwindcss -o ./webserver/public/tailwind.min.css --watch\""
   },
   "cc": {
