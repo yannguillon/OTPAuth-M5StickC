@@ -222,7 +222,7 @@ void Wifi_screen() {
     setTime(unix);
 
     // from unix to rtc_datetime_t
-    tm* tm_struct = (tm*)malloc(sizeof(tm));
+    tm* tm_struct = reinterpret_cast<tm*>(malloc(sizeof(tm)));
     gmtime_r(&unix, tm_struct);
 
     M5.Rtc.setDateTime(tm_struct);

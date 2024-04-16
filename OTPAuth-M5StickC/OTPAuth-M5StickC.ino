@@ -32,21 +32,21 @@ String random_letters = "AEF2345689";      // This string contains the character
 
 WebServer server(80);
 
-#include"Mishmash21pt7b.h"
-#include"Inter8pt7b.h"
-#include"Inter12pt7b.h"
+#include "Mishmash21pt7b.h"
+#include "Inter8pt7b.h"
+#include "Inter12pt7b.h"
 
-#include"variable_runtime.h"
+#include "variable_runtime.h"
 
-#include"webserver/dist/gzip/index.html.h"
-#include"webserver/dist/gzip/tailwind.min.css.h"
-#include"webserver/dist/gzip/favicon.png.h"
-#include"webserver/dist/gzip/app.js.h"
+#include "webserver/dist/gzip/index.html.h"
+#include "webserver/dist/gzip/tailwind.min.css.h"
+#include "webserver/dist/gzip/favicon.png.h"
+#include "webserver/dist/gzip/app.js.h"
 
-#include"screen.h"
-#include"screen1.h"
-#include"screen2.h"
-#include"math.h"
+#include "screen.h"
+#include "screen1.h"
+#include "screen2.h"
+#include "math.h"
 
 void setup() {
 
@@ -98,8 +98,6 @@ void setup() {
   // get tm from RTC
   tm rtc_tm = M5.Rtc.getDateTime().get_tm();
   setTime(rtc_tm.tm_hour, rtc_tm.tm_min, rtc_tm.tm_sec, rtc_tm.tm_mday, rtc_tm.tm_mon + 1, rtc_tm.tm_year + 1900);
-
-
 }
 
 void loop() {
