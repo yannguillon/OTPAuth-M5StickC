@@ -26,6 +26,7 @@ if command -v gzip &> /dev/null; then
 sed "1s/^/${declaration}/" "$output_file" > "$output_file.tmp" && mv "$output_file.tmp" "$output_file"
     echo "};" >> "$output_file"
     done
+        ls -la "$output_directory"
 else
     echo "Error: gzip is not installed"
 fi
