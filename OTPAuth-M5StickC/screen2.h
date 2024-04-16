@@ -163,8 +163,6 @@ void Wifi_screen() {
       hmacKey[i] = jsondata["data"][i];
     }
 
-    int id = jsondata["id"];
-
     String otpBool = jsondata["id"];
     otpBool = "B" + otpBool;
 
@@ -224,7 +222,7 @@ void Wifi_screen() {
     setTime(unix);
 
     // from unix to rtc_datetime_t
-    tm* tm_struct;
+    tm* tm_struct = (tm*)malloc(sizeof(tm));
     gmtime_r(&unix, tm_struct);
 
     M5.Rtc.setDateTime(tm_struct);
@@ -370,7 +368,6 @@ void Wifi_screen() {
     jsondata.clear();
 
     jsondata["brightness"] = NVS.getInt("lcd_brightness");
-    int _timeout = timeout_ScreenOn == UINT32_MAX ? 0 : timeout_ScreenOn / 1000;
     jsondata["timeout"] = timeout_ScreenOn / 1000;
 
     jsondata["bg_color"] = bg_color;

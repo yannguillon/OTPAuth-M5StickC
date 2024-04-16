@@ -19,7 +19,7 @@ void OTP_screen() {
 
   String totpCode = "";
 
-  int sec;  // will store last secend when the bar was updated
+  int sec = 0;  // will store last secend when the bar was updated
 
   while (switchscreen() == false) {
     if (how_many_otp_registred == 0) {
@@ -62,7 +62,7 @@ void OTP_screen() {
       String newCode = String(totp.getCode(now()));
 
 
-      if (totpCode != newCode | firstloadScreen) {
+      if ((totpCode != newCode) || firstloadScreen) {
         firstloadScreen = false;
         // fill the screen with black color, except the toolbar
         M5.Lcd.fillRect(0, toolbar_height, screen_x, screen_y - toolbar_height, bg_color);
