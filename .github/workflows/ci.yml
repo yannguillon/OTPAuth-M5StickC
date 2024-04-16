@@ -13,7 +13,7 @@ jobs:
         with:
           platforms: |
             - name: "m5stack:esp32"
-              source-url: https://dl.espressif.com/dl/package_esp32_index.json
+              source-url: https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/arduino/package_m5stack_index.json
           fqbn: m5stack:esp32:m5stack_stickc_plus2
           sketch-paths: |
             - OTPAuth-M5StickC
