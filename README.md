@@ -1,7 +1,9 @@
 # OTPAuth-M5StickC
+
 ![Arduino Build](https://github.com/yannguillon/OTPAuth-M5StickC/actions/workflows/ci.yml/badge.svg)
 
 ### Sync your OTPAuth codes directly to your M5Stick only using your iPhone !
+### For M5StickC Plus2 only
 <img src=".readme/img/illustration.png" width="250">
 
 ## Flash/Build
