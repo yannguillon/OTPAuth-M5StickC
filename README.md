@@ -1,70 +1,44 @@
+# OTPAuth-M5StickC
 ![Arduino Build](https://github.com/yannguillon/OTPAuth-M5StickC/actions/workflows/ci.yml/badge.svg)
 
-# OXOTP+
-
-<p align="center"><img alt="PICTURE logo" src=".readme/img/oxotp-ss2.png" width="450"></p>
-
-<b>FIRST OTP BASED ON M5StickCPlus / 2 for 2FA <br><br>
--------
-
-Reimplementation of the original **OXOTP** work of @IMSHOX, with added compatibility for *M5StickCPlus* and *M5StickCPlus 2*, and a new web application.
-
-<p align="center"><img alt="otps section" src=".readme/img/screenshot_otps.png" width="350"></p>
+### Sync your OTPAuth codes directly to your M5Stick only using your iPhone !
 
 
-## HOW TO USE
-**1.** Grab the binaries for your specific board and flash it using [flash download tool](https://www.espressif.com/en/support/download/other-tools) (More info [HERE](https://github.com/xick/OXOTP-plus/blob/master/HOW.md) ) <br> <br>
-*or* <br>
-Build from source using Arduino IDE. [See **#HowToBuild** for more information.] <br> <br>
-**2.**  For the first time use, by going to the wifi settings the **SSID** and **password** of the access point to connect for the configuration will be printed on screen. Connect at this **AP** and going to address specified (for the first time should be **http://192.168.4.1/**) <br> <br>
-**3.** On the **configuration** section of the webapp you can also specify your router ssid and password by changing the wireless mode to host (it will automatically fallback to AP mode if connection fails)
--<p align="center"><img alt="confituration section" src=".readme/img/screenshot_config.png" width="200"></p>
-**4**. Click '**Sync Time**' to setup the RTC timer of the device (be sure your system / browser time is also correct) <br> <br>
-**5.** Currently you can only manually add **OTPs** by providing the **secrets** of your 2FA ( a web QRCode reader functionality may come later). <br> <br>
-You can extract the secret keys from another authenticator app you already use, for example by using [**extract_otp_secrets**](https://github.com/scito/extract_otp_secrets). <br> <br>
-(Be sure the extracted secrets are in **Base32** format e.g *'OXXA6YXXVTTP4U25'* <br> <br>
-<p align="center"><img alt="add section" src=".readme/img/screenshot_add.png" width="200"></p>
+## Flash/Build
 
-## HOW TO BUILD
- - Clone the repo and open *OXOTP.ino* with Arduino IDE 2.
- - Import all the dependencies: 
-	 - M5Unified library
-	 - ArduinoHTTPClient
-	 - ArduinoMDNS
-  	- Arduino_ESP32_OTA
-	 - https://github.com/lucadentella/TOTP-Arduino
-	 - https://github.com/bblanchon/ArduinoJson
-	 - https://github.com/rpolitex/ArduinoNvs
-- Select 'Minimal SPIFFS' partition scheme (required for OTA updates) 
-- Build and flash it with Arduino IDE 2
+- #### M5 Burner (Win/Mac/Linux)
+  - Install [M5Burner](https://docs.m5stack.com/en/download)
+  - Search for OTPAuth-M5StickC
+  - Click Download
 
-## DEVELOPED FOR DAILY USE
-OXOTP+ is intended to be used as an alternative or backup for your currently 2FA authentication app. Using a dedicated device is great because your phone can be easily lost, stolen, hacked , etc. 
-Always keep a backup (even on paper) of your secrets if you intend to use this as your main 2FA system.
-<br>
-<p align="center"><img alt="PICTURE logo" src=".readme/img/oxotp-ss1.png" width="450"></p>
-<br>
+- #### Flash Download tool (Win)
+  - Download the latest [Firmware](https://github.com/yannguillon/OTPAuth-M5StickC/releases/latest) from the release page
+  - Install [Flash Download Tool]([https://docs.m5stack.com/en/download](https://www.espressif.com/en/support/download/other-tools))
+  - After launch, select **ChipType: ESP32** and** WorkMore: Develop**
+  - load the **.bin firmware** in the first element of the list
+  - Connect the M5Stick via USB and Click **Start**
 
-### MILESTONES
- - ~~Add a battery indicator~~ DONE
- - ~~OTA updates~~  
- - ~~Beautify the UI, add an alternative Light UI~~ 
- - ~~Make poweroff timer and screen brightness tweakable~~ 
- - Add API for Exporting secrets 
- - Add **Pincode** for the webapp
- - Embed a **QRCode** reader in the webapp
+- #### Build from source
+  - Install [Arduino IDE 2](https://docs.m5stack.com/en/download)
+  - Clone the repo and open OTPAuth-M5StickC.ino
+  - Import all the dependencies:
+    - M5Unified library
+    - ArduinoHTTPClient
+    - ArduinoMDNS
+    - ArduinoJson
+    - TOTP-Arduino
+  - In boards manager Select M5StickCPlus2
+  - Click Upload
 
-### COMPATIBILITY
-- M5StickCPLus 2
-- M5StickCPlus
-- M5Stick (not tested yet)
+## WIKI
+_Coming soon_
 
 ## License 
 This software is licensed under the MIT License, to read the full license <a href="LICENSE" target="_blank">HERE</a>.
 
 ## Credits
-- Based on https://github.com/IMSHOX
-- Pico CSS, a splendid and lightweight css framework (https://github.com/picocss/pico)
-- truetype2gfx - https://rop.nl/truetype2gfx/
-- and the creators of all the libraries used.
+<h4><i>Thanks: </i><a target="_blank" class="font-bold" href="https://github.com/Hinaser/jscrypto">@Hinaser</a>, contributors of <a target="_blank" class="font-bold" href="https://github.com/Hinaser/jscrypto">Browserify</a>, <a target="_blank" class="font-bold" href="https://github.com/pedrus16">@Pedrus16</a> For the 3D renders</h4>
+                <i>Not Thanks: </i>
+                <span class="font-bold">W3C</span>
+                <a class="font-medium text-blue-600 underline dark:text-blue-500 hover:no-underline" target="_blank" href="https://github.com/w3c/webcrypto/issues/28#issuecomment-1174004465">for deliberately blocking browsers crypto APIs to makers</a></h4>
 
