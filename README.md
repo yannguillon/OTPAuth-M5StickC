@@ -28,7 +28,8 @@
     - ArduinoMDNS
     - ArduinoJson
     - TOTP-Arduino
-  - In boards manager Select M5StickCPlus2
+  - In boards manager install **M5Stack**
+  - Select M5StickCPlus2 as device target
   - Click Upload
 
 ## WIKI
