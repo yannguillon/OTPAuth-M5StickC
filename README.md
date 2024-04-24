@@ -8,8 +8,9 @@
 
 - #### M5 Burner (Win/Mac/Linux)
   - Install [M5Burner](https://docs.m5stack.com/en/download)
-  - Search for OTPAuth-M5StickC
-  - Click Download
+  - Look for the **STICKC** section
+  - Search for **OTPAuth-M5StickC**
+  - Click **Download**
 
 - #### Flash Download tool (Win)
   - Download the latest [Firmware](https://github.com/yannguillon/OTPAuth-M5StickC/releases/latest) from the release page
