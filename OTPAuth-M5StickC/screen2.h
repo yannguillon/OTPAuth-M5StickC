@@ -17,7 +17,7 @@ void Wifi_screen() {
   /* generate password for wifi */
   String pass_gen = "";
   for (int i = 0; i < 8; i++) {
-    pass_gen += random_letters[random(0, random_letters.length() - 1)];
+    pass_gen += random_letters[random(0, sizeof(random_letters) - 1)];
   }
 
   String pass_static = "";  // Default password
